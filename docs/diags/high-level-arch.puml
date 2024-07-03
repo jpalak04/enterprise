@@ -1,0 +1,32 @@
+@startuml
+allowmixing
+
+
+package "Axway\nPrivate Deployment"
+{
+package "Application Layer" {
+  component "Backstage\nFrontend" as frontend
+  component "Backstage\nBackend" as backend
+}
+
+package "Data Layer" {
+  database "PostgreSQL" as db
+}
+}
+package "Integration Layer" {
+  cloud "Internal\nSystems" as internal {
+    component "Jira" as jira
+    component "GitLab" as gitlab
+  }
+  cloud "External\nSystems" as external {
+    component "GitHub" as github
+    component "Azure AD" as azuread
+
+  }
+}
+
+internal --> backend
+external --> backend
+db --> backend
+backend --> frontend
+@enduml

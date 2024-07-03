@@ -1,0 +1,26 @@
+@startuml
+package "Technology Stack" {
+    [Web Components] as WebComp
+    [Fastify] as Fastify
+    [Lit Directives] as Lit
+    WebComp -[hidden]-> Fastify : uses
+    Fastify -[hidden]-> Lit : uses
+    note right of Lit : Custom directives\nfor authorization
+}
+
+package "Authentication and Authorization" {
+    [Azure Active Directory] as AzureAD
+    [JWT Token Handling] as JWT
+    AzureAD --> JWT : authenticates\nand manages roles
+    note right of JWT : JWT with Azure\nApp Roles
+}
+
+package "Azure App Roles" {
+    [Azure App Role Management] as AzureAppRoles
+    AzureAD --> AzureAppRoles : defines and\nassigns roles
+    note right of AzureAppRoles : Simplified role\nmanagement
+}
+
+WebComp --> AzureAD : authenticates via
+Lit --> JWT : checks\nauthorization
+@enduml

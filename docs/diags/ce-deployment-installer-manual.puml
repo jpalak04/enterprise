@@ -1,0 +1,17 @@
+@startuml
+actor "Cloud Operator" as operator
+participant "Context" as context
+participant "Credential Management" as credentials
+participant "CLI or AWS Console" as console
+database "AWS\n(S3 Bucket)" as s3
+
+== For Each Product & AWS Account Pairing ==
+operator -> context : Switch context to specific\nAWS Account & Product
+note right of context: ex: Upload for Product MFT\nAWS Account R&D
+operator -> credentials : Retrieve & Load\nspecific AWS credentials
+operator -> console : Navigate to S3 service
+operator -> s3 : Upload file manually
+s3 -> operator : Confirm upload
+== Repeat for additional\nproduct & account pairings ==
+
+@enduml

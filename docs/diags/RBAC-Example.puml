@@ -1,0 +1,21 @@
+@startuml
+rectangle "MFT Deployment\nManagement System" as MFTSystem
+rectangle "Role:\nMFTDeployment" as MFTDeploymentRole
+
+actor User1 as "User 1"
+actor User2 as "User 2"
+actor User3 as "User 3"
+actor UserX as "Axway Operator\n(Non-MFT)"
+
+MFTSystem -right-> MFTDeploymentRole : restricts\naccess to
+MFTDeploymentRole -down-> User1 : assigned
+MFTDeploymentRole -down-> User2 : assigned
+MFTDeploymentRole -down-> User3 : assigned
+
+note right of UserX
+  Not assigned to
+  MFTDeployment
+end note
+
+@enduml
+

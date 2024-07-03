@@ -1,0 +1,5 @@
+#.csr-profile.json requires SPOC approval for any modifications
+# @ccoy - Primary SPOC
+# @jrekala - Secondary SPOC
+# @spocgroup - Group set up in Gitlab that contains all SPOCs from project
+.csr-profile.json @ccoy @jrekala @spocgroup

@@ -1,0 +1,113 @@
+.release-tags: &release-tags |
+  npm version ${RELEASE_LEVEL} -m "[release-plugin] Update package version"
+  git push origin HEAD:master
+  git push --tags
+  export NEW_VERSION=$(npm version pre${RELEASE_LEVEL} --no-git-tag-version --preid=dev)
+  git commit -am "[release] bump dev version to $NEW_VERSION"
+  git push origin HEAD:master
+
+# Setup ssh and git for runner to pull micro-ui repos
+.setup-git-with-ssh: &setup-git-with-ssh |
+  which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+  eval $(ssh-agent -s)
+  echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  ssh-keyscan -t rsa git.ecd.axway.org >> ~/.ssh/known_hosts
+  chmod 644 ~/.ssh/known_hosts
+  ls -al ~/.ssh
+  echo -n | openssl s_client -showcerts -connect git.ecd.axway.org:443 2>/dev/null  | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ~/git-ecd-axway-int.pem
+  git config --global http."https://git.ecd.axway.org/".sslCAInfo ~/git-ecd-axway-int.pem
+  git config --global push.default matching
+  git config --global user.email "builder-lphxmjtnt11@axway.com"
+  git config --global user.name "builder-lphxmjtnt11"
+  git config --global push.followTags true
+  git remote set-url --push origin "git@git.ecd.axway.org:${CI_PROJECT_PATH}.git"
+
+.add-axway-ca: &add-axway-ca |
+  mkdir /usr/local/share/ca-certificates/axway.com
+  cp $AXWAY_ROOT_CA /usr/local/share/ca-certificates/axway.com/AxwayRootCA.crt
+  update-ca-certificates
+
+# Export values for other scripts based on code maturity
+# APP_VERSION = package.json "version" value
+# IMAGE_TAG_VERSION = tag value on tag / APP_VERSION on master / branch name on branch
+# HELM_CHART_VERSION = tag value on tag/ APP_VERSION on master / APP_VERSION+branch name on branch
+# ARTIFACTORY_REPO = which artifactory repo to use for images
+.get-versions: &get-versions |
+  apk update && apk add jq
+  export APP_VERSION=$(jq -r .version package.json)
+  if [ ! -z "$CI_COMMIT_TAG" ]; then
+      export APP_VERSION=$CI_COMMIT_TAG
+      export IMAGE_TAG_VERSION=$CI_COMMIT_TAG
+      export HELM_CHART_VERSION=$CI_COMMIT_TAG
+      export DOCKER_PULL_REPO=axway.jfrog.io/ampc-docker-release
+  elif [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+      export IMAGE_TAG_VERSION=$APP_VERSION
+      export HELM_CHART_VERSION=$APP_VERSION
+      export DOCKER_PULL_REPO=axway.jfrog.io/ampc-docker-release
+  else
+      export IMAGE_TAG_VERSION=$CI_COMMIT_REF_NAME
+      export HELM_CHART_VERSION=$APP_VERSION-"${CI_COMMIT_REF_NAME//_/-}"
+      export DOCKER_PULL_REPO=axway.jfrog.io/ampc-neon-docker-release
+  fi
+  echo "===> APP_VERSION = $APP_VERSION"
+  echo "===> IMAGE_TAG_VERSION = $IMAGE_TAG_VERSION"
+  echo "===> HELM_CHART_VERSION = $HELM_CHART_VERSION"
+
+image: dockerhub.artifactory-phx.ecd.axway.int/node:14
+
+# Including yml files from scurity/gitlabci to define CSR Jobs in the Security-Scan and Security-Review stages
+include:
+  - project: "scurity/gitlabci"
+    file:
+      - "/.gitlab-ci-fortify.yml"
+      - "/.gitlab-ci-iriusrisk.yml"
+      - "/.gitlab-ci-blackduck.yml"
+      - "/.gitlab-ci-csr.yml"
+      - "/.gitlab-ci-twistlock.yml"
+      - "/.gitlab-ci-appspider.yml"
+    ref: $SCURITY_LATEST
+  - project: "cloud/gitlabci"
+    file:
+      - "/docker.gitlab-ci.yml"
+      - "/helm.gitlab-ci.yml"
+      - "/metadata.gitlab-ci.yml"
+    ref: 2.0.0
+  - project: "apigov/gitlabci"
+    file:
+      - "/.gitlab-ci-sonar.yml"
+    ref: master
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - dist/
+
+variables:
+  FORTIFY_BUILD_ID: marketplace-web
+  FORTIFY_PROJECT: "10678"
+  FORTIFY_INCLUDE: "src/**/*.tsx"
+  FORTIFY_EXCLUDE: "src/**/*.spec.*"
+  BLACKDUCK_PROJECT_NAME: "Amplify - APIC Marketplace Web"
+  IRIUSRISK_COMPONENT_NAME: "e0c9aa49-4ced-4df5-8c25-2943e87a2397"
+  CSR_SUPPRESSION_LIST: "/tmp/csr-suppressions/psg/tools.json /tmp/csr-suppressions/amplify-central/config-library.json /tmp/csr-suppressions/docker/alpine.json /tmp/csr-suppressions/docker/openjdk.8-jre-slim-buster.json"
+  # REQUIRED - The docker executor should be configured with /certs/client in the volume mounts, accordingly to Gitlab best practices for Docker builds
+  DOCKER_TLS_CERTDIR: "/certs"
+  IMAGE_TAG_EXPR: "export IMAGE_TAG=$${CI_COMMIT_TAG:-$${HELM_CHART_VERSION}-$${CI_COMMIT_SHORT_SHA}}"
+  APPSPIDER_CONFIG: "66578410-0dd1-46b0-af82-45d76e303f3d"
+
+stages:
+  - test
+
+#Build Image From Branch, Then Scan the Image with Twistlock and Create a Console Dump for the CSR tool to clean up
+twistlock:
+  image: $GITLABCI_IMG_CICD_TOOLS
+  dependencies:
+    - yarn_build
+  before_script:
+    - *setup-git-with-ssh
+    - *add-axway-ca
+    - export IMAGE_NAME=${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    - docker build --pull --no-cache -t $IMAGE_NAME .

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: "{{ .Values.environment.POSTGRES_DB }}"
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        volumeMounts:
+        - name: postgres-data
+          mountPath: "{{ .Values.volume.path }}"
+      volumes:
+      - name: "{{ .Values.volume.name }}"
+        persistentVolumeClaim:
+          claimName: postgres-pvc

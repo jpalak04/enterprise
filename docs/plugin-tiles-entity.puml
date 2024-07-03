@@ -1,0 +1,22 @@
+@startuml
+
+class PluginTile {
+    +title: string
+    +subtitle: string
+    +description: string
+    +styleName?: StyleKey
+    +link: string
+    +target: string
+}
+
+class ProductTilesConfig {
+    +context: string
+    +headerTitle: string
+    +headerSubtitle: string
+    +contentDescription: string
+    +tiles: PluginTile[]
+}
+
+ProductTilesConfig "1" -- "many" PluginTile : contains
+
+@enduml

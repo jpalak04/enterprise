@@ -1,0 +1,35 @@
+@startuml
+title Gitflow Branching Workflow
+
+state "Main" as main {
+    [*] --> main
+    main --> dev: create dev branch
+}
+state "Development" as dev {
+    dev --> feature: create feature branch
+}
+state "Feature" as feature {
+    feature --> dev: merge feature into dev
+}
+state "Test" as test {
+    dev --> test: merge dev into test
+}
+state "Production" as prod {
+    test --> prod: merge test into prod
+    prod --> hotfix: create hotfix branch
+}
+state "Hotfix" as hotfix {
+    hotfix --> prod: merge hotfix into prod
+    hotfix --> dev: merge hotfix into dev
+    hotfix --> main: merge hotfix into main
+}
+prod --> main: merge prod into main
+main --> dev: merge main into dev
+note right of main: The 'main' branch stores\nthe official release history.
+note right of dev: The 'dev' branch serves as an\nintegration branch for features.
+note right of feature: 'Feature' branches are used\nto develop new features.
+note right of test: The 'test' branch is used for\nQA before releasing.
+note right of prod: The 'prod' branch is used for\nthe actual production release.
+note right of hotfix: 'Hotfix' branches are used\nfor making necessary patches.
+
+@enduml

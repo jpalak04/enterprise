@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  ce-backstage:
+    image: bstest
+    ports:
+      - "7007:7007"
+    networks:
+      - local-infra_default
+
+networks:
+  local-infra_default:
+    external: true
+

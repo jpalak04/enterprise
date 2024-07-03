@@ -1,0 +1,90 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: Axway-Onboard-Template
+  title: Axway Onboard Template
+  description: This is a sample template for capturing user details to create necessary access for a new user.
+spec:
+  owner: Axway
+  type: service
+
+  parameters:
+    - title: Onboard Template
+      required:
+        - username
+        -
+      properties:
+        name:
+          title: User Name
+          type: string
+          description: Azure AD username e.g., foo@axway.com
+          ui:autofocus: true
+        Group:
+          title: Group Name
+          type: string
+          description: Group Name User will be attached to. e.g., Amplify
+          ui:autofocus: true
+
+  steps:
+    - id: hello
+      name: Hello
+      action: hello-world
+      input:
+        name: ${{ parameters.name }}
+
+  output:
+    links:
+      - title: Done
+        url: https://backstage.example.com
+
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: new-service-template
+  title: New Service Creation
+  description: Creates a new service based on user selections
+spec:
+  owner: apigov
+  type: service
+
+  parameters:
+    - title: Service Details
+      required:
+        - softwareLanguage
+        - repoGroupName
+        - newProjectName
+      properties:
+        softwareLanguage:
+          title: Software Language
+          type: string
+          description: Language for the new service
+          enum:
+            - Go
+            - Java
+            - Node
+        repoGroupName:
+          title: Repo Group Name
+          type: string
+          description: Group for the repository
+          enum:
+            - Group1
+            - Group2
+            - Group3
+        newProjectName:
+          title: New Project Name
+          type: string
+          description: Name for the new project (in kabob-case)
+#          format: kabob-case # enforcing kabob case might require additional validation logic
+
+  steps:
+    - id: mock-step
+      name: Mock step for demonstration
+      action: noop # using a no-operation action just for demonstration purposes
+      input:
+        noopInput: Just a mock-up, no real actions here
+
+  output:
+    links:
+      - title: Done
+        url: https://backstage.example.com

@@ -1,0 +1,7 @@
+ingress:
+  host: developer-portal.sandbox.ce.axway.int
+  hostDevo: sandbox.devo.axway.int
+environment: sandbox
+app:
+  backstageConfig: app-config.sandbox.yaml
+  logLevel: debug

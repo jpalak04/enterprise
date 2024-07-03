@@ -1,0 +1,8 @@
+ingress:
+  host: developer-portal.ce.axway.int
+  hostDevo: devo.axway.int
+
+environment: production
+app:
+  backstageConfig: app-config.production.yaml
+  logLevel: info

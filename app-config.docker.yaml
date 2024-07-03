@@ -1,0 +1,21 @@
+app:
+  baseUrl: http://localhost:7007
+# Backstage override configuration for your local development environment
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  database:
+    client: pg
+    connection:
+      host: local-infra_db_1
+      port: 5432
+      user: backstage
+      password: backstage1234
+      database: backstage
+integrations:
+  github:
+    - host: github.com
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      token: 6039837e48233f17d41a8290721b456a69d3b23d

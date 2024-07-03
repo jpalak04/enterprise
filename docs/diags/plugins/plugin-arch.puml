@@ -1,0 +1,41 @@
+@startuml
+entity Client as "Frontend"
+entity "Backend Core" as Core
+database "PostgreSQL" as DB
+entity "Knex Migrations" as Knex
+entity "Custom Plugin" as Plugin
+entity "Plugin Router" as Router
+
+== Initialization ==
+Client -> Core : Start Backend
+activate Core
+Core -> DB : Connect to Database
+activate DB
+DB -> Knex : Apply Migrations
+activate Knex
+Knex -> DB : Update Schema
+deactivate Knex
+DB -> Core : Connection Established
+deactivate DB
+
+== Plugin Creation ==
+Core -> Plugin : Create Custom Plugin
+activate Plugin
+Plugin -> Router : Instantiate Router
+activate Router
+Router -> Plugin : Ready
+deactivate Router
+Plugin -> Core : Plugin Ready
+deactivate Plugin
+
+== Operation ==
+Client -> Router : HTTP Request (api/myplugin/health)
+activate Router
+Router -> DB : Fetch Health Data
+activate DB
+DB -> Router : Return Health Data
+deactivate DB
+Router -> Client : HTTP Response (Status)
+deactivate Router
+
+@enduml

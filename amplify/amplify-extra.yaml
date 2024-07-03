@@ -1,0 +1,299 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: api-server
+  description: CRUD Operations for api-server service
+spec:
+  type: openapi
+  lifecycle: production
+  owner: amplify-api-platform
+  definition:
+    $text: https://apicentral.axway.com/apis/docs
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-server
+  description: "CRUD service for API's"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/api-server
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: description
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+  system: ampc
+  providesApis:
+    - api-server
+  dependsOn:
+    - resource:default/prometheus
+    - resource:default/postgres-RDS
+    - component:default/central-auth
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ampc
+  description: Amplify Kubernetes Cluster
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - kubernetes
+    - aws
+spec:
+  owner: amplify-api-platform
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-broker-svc
+  description: "The api broker service"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/apibroker
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: BugReport
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+  system: ampc
+  consumesApis: 
+    - api-server
+  dependsOn:
+    - component:default/api-server
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: apicentral-traceability
+  description: "The api broker service"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/api-traceability-connector
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+  system: ampc
+  consumesApis: 
+    - api-server
+  dependsOn:
+    - component:default/api-server
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-server-relay-notifier
+  description: "The api server event relay service"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/api-traceability-connector
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+  system: ampc
+  consumesApis: 
+    - api-server
+  dependsOn:
+    - component:default/api-server
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ucs-controller
+  description: "The UCS Controller service"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/api-traceability-connector
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+  system: ampc
+  consumesApis: 
+    - api-server
+  dependsOn:
+    - component:default/api-server
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: central-auth
+  description: "Central Authentication/Authorization Service"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - java
+    - dockerfile
+  links:
+    - title: Source Code
+      url: https://git.ecd.axway.org/apigov/apibroker
+      icon: github
+    - title: Homepage
+      url: https://confluence.axway.com/display/RDAPI/API+Central
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: service
+  owner: amplify-api-platform
+  system: ampc
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: cloud-engineering
+  description: "Cloud Engineering Group"
+spec:
+  type: engineering
+  parent: Axway
+  children: []
+---
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: prometheus
+  description: Monitoring and Alerting
+spec:
+  type: service
+  owner: cloud-engineering
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: postgres-RDS
+  description: Postgres Database
+spec:
+  type: service
+  owner: cloud-engineering
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dora-dashboard
+  description: "Axway Dora Dashboard"
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  tags:
+    - dora
+    - dashboard
+  links:
+    - title: Data Accuracy Dashboard
+      url: https://dora.phx.axway.int/d/data-accuracy-details/data-accuracy-details?orgId=1&refresh=5s
+      icon: home
+    - title: Amplify Agents Dashboard 
+      url: https://dora.phx.axway.int/d/agents/amplify-agents?orgId=1&refresh=5s
+      icon: home
+    - title: Amplify Central Dashboard 
+      url:   https://dora.phx.axway.int/d/ampc/amplify-central?orgId=1&refresh=5s
+      icon: home
+    - title: teams
+      url: https://teams.microsoft.com/l/channel/19%3a5436645e60294473ae20d329466fa673%40thread.skype/API%2520Server?groupId=1501507f-8dd2-495a-a7ac-308a62df8659&tenantId=300f59df-78e6-436f-9b27-b64973e34f7d
+      icon: chat
+    - title: Report an issue
+      url: https://jira.axway.com/browse/APIGOV
+      icon: help
+spec:
+  type: website
+  owner: cloud-engineering
+  lifecycle: production
+---
+

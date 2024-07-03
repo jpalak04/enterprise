@@ -1,0 +1,24 @@
+ @startuml
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v16.0/dist
+!define VMWARE_SPRITEURL https://raw.githubusercontent.com/chrisccoy/plantuml-sprites/main
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml/Containers/EKSCloud.puml
+!include AWSPuml/General/all.puml
+!include AWSPuml/DeveloperTools/CodeArtifact.puml
+!include AWSPuml/Database/Database.puml
+!include VMWARE_SPRITEURL/vmware.puml
+
+title "Sequence Diagram for Creating\na New Software Service"
+actor User
+participant "<color:$AWS_COLOR_SMILE><$Client></color>\nFrontend\nApplication" as Frontend
+participant "<color:$AWS_COLOR_SMILE><$Servers></color>\nBackend\n(BFF)" as BFF
+participant "<color:$AWS_COLOR_SMILE><$Database></color>\nDatabase" as DB
+
+
+
+BFF -> DB: Load Product Config
+DB --> BFF: Product Data
+BFF --> Database: 
+@enduml

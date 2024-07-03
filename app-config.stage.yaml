@@ -1,0 +1,15 @@
+# Backstage override configuration for your stage  environment
+app:
+  title: Axway R&D and Operations Backstage App-STAGE
+auth:
+  environment: stage
+  providers:
+    microsoft:
+      stage:
+        clientId: ${AZ_CLIENT_ID}
+        clientSecret: ${AZ_CLIENT_SECRET}
+        tenantId: ${AZ_TENANT_ID} 
+        domainHint: ${AZ_DOMAIN_HINT}
+backend:
+  database:
+    pluginDivisionMode: schema

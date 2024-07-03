@@ -1,0 +1,20 @@
+{
+  "extends": "@backstage/cli/config/tsconfig.json",
+  "include": [
+    "packages/*/src",
+    "plugins/*/src",
+    "plugins/*/dev",
+    "plugins/*/migrations",
+    "packages/shared/clients",
+    "packages/shared/types"
+  ],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "outDir": "dist-types",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@devo/shared/*": ["packages/shared/*"]
+    }
+  }
+}

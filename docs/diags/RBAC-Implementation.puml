@@ -1,0 +1,29 @@
+@startuml
+package "Technology Stack" {
+    [Web Components] as WebComp
+    [Fastify] as Fastify
+    [Lit Directives] as Lit
+    WebComp -[hidden]-> Fastify : uses
+    Fastify -[hidden]-> Lit : uses
+    note right of Lit : Custom directives\nfor authorization
+}
+
+package "Authentication and Authorization" {
+    [Azure Active Directory] as AzureAD
+    [JWT Token Handling] as JWT
+    AzureAD --> JWT : authenticates\nand appends roles
+    note right of JWT : Re-sign JWT before\nsending to frontend
+}
+
+package "User-Role Mapping" {
+    [Admin Function] as AdminFunc
+    [PostgreSQL Database] as Postgres
+    [User-Role Mapping Implementation] as UserRoleMap
+    AdminFunc --> UserRoleMap : manages
+    UserRoleMap --> Postgres : stores roles
+    note right of UserRoleMap : Simple one-to-one\nuser to role mapping
+}
+
+WebComp --> AzureAD : authenticates via
+Lit --> JWT : checks\nauthorization
+@enduml

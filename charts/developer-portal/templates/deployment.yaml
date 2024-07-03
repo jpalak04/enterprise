@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  ce-developer-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  ce-developer-portal
+  template:
+    metadata:
+      labels:
+        app:  ce-developer-portal
+    spec:
+      containers:
+      - name:  ce-developer-portal
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        command:
+        - node
+        - packages/backend
+        args:
+        - --config
+        - app-config.yaml
+        - --config
+        - {{ .Values.app.backstageConfig }}
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_PASSWORD
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds
+              key: GITHUB_TOKEN
+        - name: GITLAB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds
+              key: GITLAB_TOKEN
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_DB          
+        - name: PLUGIN_DIVISION_MODE
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: PLUGIN_DIVISION_MODE          
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_HOST         
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: POSTGRES_PORT         
+        - name: BACKEND_PORT
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: BACKEND_PORT         
+        - name: APP_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: APP_BASE_URL         
+        - name: BACKEND_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: BACKEND_BASE_URL
+        - name: AZ_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: AZ_CLIENT_ID
+        - name: AZ_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: AZ_CLIENT_SECRET
+        - name: AZ_TENANT_ID
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: AZ_TENANT_ID
+        - name: AZ_DOMAIN_HINT
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: AZ_DOMAIN_HINT         
+        - name: AZ_DOMAIN_HINT
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: AZ_DOMAIN_HINT         
+        - name: RD_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: RD_ACCESS_KEY         
+        - name: RD_ACCESS_KEY_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: ce-portal-creds 
+              key: RD_ACCESS_KEY_SECRET        
+        - name: LOG_LEVEL
+          value: {{ .Values.app.logLevel }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secret }}
+

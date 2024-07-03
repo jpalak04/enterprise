@@ -1,0 +1,15 @@
+@startuml
+actor User
+User -> Frontend : Navigate to "/product-tiles/bshome"
+activate Frontend
+Frontend -> Backend : GET /tiles
+activate Backend
+Backend -> Database : Fetch tile data
+activate Database
+Database -> Backend : Return data
+deactivate Database
+Backend -> Frontend : Response with tile data
+deactivate Backend
+Frontend -> User : Display tiles
+deactivate Frontend
+@enduml

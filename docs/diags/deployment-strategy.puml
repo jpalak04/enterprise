@@ -1,0 +1,13 @@
+@startuml Deployment Strategy
+
+package "Kubernetes Cluster" {
+    [Option A: AWS EKS]
+    [Option B: Self-managed Kubernetes\non VxRails infra]
+}
+
+package "Database" {
+    [Option A: AWS RDS (PostgreSQL)]
+    [Option B: Self-hosted PostgreSQL]
+}
+
+@enduml

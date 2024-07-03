@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: k8smon
+  description: something
+  annotations:
+    backstage.io/kubernetes-id: backstage-app
+    backstage.io/kubernetes-namespace: backstage
+spec:
+  type: service
+  lifecycle: experimental
+  owner: user:default/guest

@@ -1,0 +1,7 @@
+site_name: 'Apigee-Agents-Service-Docs'
+
+nav:
+  - Home: index.md
+docs_dir: ./input/docs
+plugins:
+  - techdocs-core

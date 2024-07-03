@@ -1,0 +1,52 @@
+@startuml Architecture Design VxRails
+allowmixing 
+
+title "pCloud\nDeployment Option"
+
+package "Deployment Model" 
+{
+    package "Axway Private Network"
+    {
+      cloud "pCloud(VxRails)" as pcloud {
+         package "Deployment Platform:\nKubernetes" as k8s
+         {
+             component "Backstage\nFrontend" as frontend
+             component "Backstage\nBackend" as backend
+             database "postgreSQL" as postgres 
+             note right of postgres: "Self-Hosted Option"
+         }
+
+      }
+      component "DNS" as dns
+      package "Internal Endpoints" as endpoints {
+            component "GitHub" as svca
+            component "Jira" as svcb
+            component "...Service N" as svcn
+      }
+    
+    
+    }
+    
+    package "Image Deployment"
+    {
+      component "Gitlab\nCI/CD" as cicd
+      component "Artifactory"
+      component "Helm" as helm
+    }
+    package "External Endpoints" as extendpoints {
+            component "AzureAD" as azure
+            component "Github" as github
+            component "...Service N" as extsvcn
+    }
+ 
+
+}
+backend->postgres
+frontend->backend
+backend -down->endpoints
+helm -right->k8s : apply
+k8s -down->Artifactory: pull
+dns -up->pcloud
+cicd -right->Artifactory : push
+backend -down->extendpoints
+@enduml

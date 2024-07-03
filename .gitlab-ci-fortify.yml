@@ -1,0 +1,105 @@
+include:
+  - local: ".gitlab-ci-rules.yml"
+
+variables:
+  # For java repos, we use maven to do the fortify build. Define and set this variable in the gitlab-ci.yml file to "true".
+  # Otherwise, the fortify scan will be skipped.
+  # FORTIFY_MAVEN_BUILD: ""
+  FORTIFY_URL: "https://fortify.psg.axway.int/ssc"
+  FORTIFY_DOCKER_IMAGE_MVN: "psg-docker-release.artifactory-phx.ecd.axway.int/fortify/fortify-mvn-jdk-8:latest"
+  # Files to include in fortify scan. Override for specific exlude values. Separate multiple exclusions w/ ':'
+  # (e.g. **/*.a:**/*.b). Not providing an override has the effect of skipping the fortify scan.
+  FORTIFY_INCLUDE: "packages/backend/src/**/* packages/app/src/**/* plugins/**/*"
+  # Files to exclude from fortify scan; default is none. Override for specific exlude values.
+  FORTIFY_EXCLUDE: ""
+
+
+
+# Download Fortify Results For this Project into JSON file to be used in Security-Review stage
+.fetch-fortify:
+  stage: security-scans
+  image: ${CSR_DOCKER_IMAGE}
+  retry: 2
+  script:
+    - git fetch
+    - echo "${SSP_APP_VERSION}"
+    - fetch-fortify -r ${FORTIFY_APP_ID} -t ${FORTIFY_FETCH_TOKEN} -u ${FORTIFY_USER} -p ${FORTIFY_PASSWORD} -b ${SSP_APP_VERSION} -g ${CI_COMMIT_BRANCH}
+  artifacts:
+    expire_in: "1 day"
+    when: always
+    paths:
+      - scan-fortify.json
+  allow_failure: true
+
+fetch-fortify:
+  extends: .fetch-fortify
+  needs: ["fortify"]
+  rules:
+    - !reference [.default-main-rules, rules]
+
+fetch-fortify:on-schedule:
+  extends: .fetch-fortify
+  needs: ["fortify:on-schedule"]
+  rules:
+    - !reference [.default-schedule-rules, rules]
+
+.fortify-call:
+  script:
+    - set -x
+    - |
+      # repos w/ FORTIFY_RUN_SCAN=false will skip this job
+      if [[ ${FORTIFY_RUN_SCAN} == 'false' ]]; then
+        echo "FORTIFY_RUN_SCAN is false... Fortify scan skipped"
+
+      # this section for maven builds only
+      elif [[ ! -z ${FORTIFY_MAVEN_BUILD} ]]; then
+        curl -k -o settings.xml ${MAVEN_SETTINGS_FILE_URL}
+        mvn -B clean com.fortify.sca.plugins.maven:sca-maven-plugin:21.1.2:clean -DskipTests=true -s settings.xml
+        mvn -B package com.fortify.sca.plugins.maven:sca-maven-plugin:21.1.2:translate -DskipTests=true -Dfortify.sca.buildId=${_BUILD_ID} -s settings.xml
+
+        # Perform an ScanCentral analysis on the specified build id
+        scancentral -sscurl ${FORTIFY_URL} -ssctoken ${FORTIFY_CLOUD_TOKEN} start -upload --application-version-id ${FORTIFY_APP_ID} -b ${SSP_APP_VERSION} -uptoken ${FORTIFY_SSC_UPLOAD_TOKEN} -scan
+
+      else
+        # Circular dependencies from scoped packages/links  are casuing the exclusion to fail, 
+        # let's remove node_modules in this step
+        # We dont need it for static analysis
+        SOURCE_DIR="."
+        find "$SOURCE_DIR" -name "node_modules" -type d -exec rm -rf {} +
+        
+        echo "Preparation complete. You can now run sourceanalyzer on the $DEST_DIR directory."
+        cd "$SOURCE_DIR"
+        # if FORTIFY_INCLUDE isn't set, this job is skipped
+        if [[ -z ${FORTIFY_INCLUDE} ]]; then
+          echo "FORTIFY_INCLUDE not defined... Fortify scan skipped"
+        else
+          # The location there the sourceanalyzer binary is located
+          SCA_EXCLUDE="**/node_modules/**/*.*:build/**/*.*:build-*/**/*.*"
+        
+          # clean the fortify session (deletes all SCA intermediate files and build records). '$SSP_APP_VERSION' is the build id used for this scan session
+          sourceanalyzer -Xmx2G -b ${SSP_APP_VERSION} -clean
+          # Performs a translate of non-compilable source files into normalized syntax tree format. Can be done multiple times, as soon as the same build id is used.
+          # Move the node_modules root dir because certain refs cause the exclusions to find nothing
+          sourceanalyzer -Xmx2G -verbose -b ${SSP_APP_VERSION} -exclude "packages/backend/node_modules/**/*:packages/app/node_modules/**/*" packages/backend/src/**/* packages/app/src/**/* plugins 
+          # Perform an ScanCentral analysis on the specified build id
+          scancentral -sscurl ${FORTIFY_URL} -ssctoken ${FORTIFY_CLOUD_TOKEN} start -upload --application-version-id ${FORTIFY_APP_ID} -b ${SSP_APP_VERSION}  -uptoken ${FORTIFY_SSC_UPLOAD_TOKEN} -scan
+        fi
+      fi
+
+.fortify:
+  image: ${FORTIFY_DOCKER_IMAGE_MVN}
+  stage: security-scans
+  allow_failure: true
+  script:
+    - !reference [.fortify-call, script]
+
+# only run fortify job on default branch pipeline, and never on schedule
+fortify:
+  extends: .fortify
+  rules:
+    - !reference [.default-main-rules, rules] 
+
+fortify:on-schedule:
+  extends: .fortify
+  rules:
+    - !reference [.default-schedule-rules, rules]

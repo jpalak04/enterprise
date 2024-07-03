@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant "Frontend Plugin" as FP
+participant "Backend Plugin" as BP
+participant "GitLab Client" as GC
+participant "Jenkins Client" as JC
+
+User -> FP: Request product pipeline data
+FP -> BP: Fetch pipeline/job data
+BP -> GC: Fetch GitLab pipelines(project_id)
+GC -> "GitLab API": "GET :projectID"
+"GitLab API" --> GC: Return pipelines data
+GC --> BP: Return pipelines data
+
+BP -> JC: Fetch Jenkins job data(job_name)
+JC -> "Jenkins API": "GET :jobName"
+"Jenkins API" --> JC: Return job data
+JC --> BP: Return job data
+
+BP -> FP: Return aggregated pipeline/job data
+FP -> User: Display pipeline/job data
+@enduml

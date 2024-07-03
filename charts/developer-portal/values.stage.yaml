@@ -1,0 +1,11 @@
+ingress:
+  host: developer-portal.stage.ce.axway.int
+  hostDevo: stage.devo.axway.int
+
+environment: stage
+app:
+  backstageConfig: app-config.stage.yaml
+  logLevel: debug
+image:
+  repository: axway.jfrog.io/cesharedservices-docker-release/devops-portal
+  tag: 0.1.4

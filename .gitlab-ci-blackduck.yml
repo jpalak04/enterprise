@@ -1,0 +1,196 @@
+include:
+  - local: ".gitlab-ci-rules.yml"
+
+variables:
+  BLACKDUCK_SCAN_MODE: "INTELLIGENT"
+  BLACKDUCK_PROJECT_VERSION: "SNAPSHOT"
+  BLACKDUCK_PROJECT_NAME: "Other - CE DevOps Portal"
+  BLACKDUCK_DOCKER_IMAGE: "ampc-docker-release-phx.artifactory-phx.ecd.axway.int/scurity/blackduck:latest"
+  BLACKDUCK_DIAGNOSTIC_MODE: "true"
+  BLACKDUCK_SOURCE_PATH: "."
+  JAVA_HOME_CMD: "readlink -f /usr/bin/java | sed 's:bin/java::'"
+
+.get-last-git-tag: &get-last-git-tag |
+  # don't get a tag if someone has already pre-set it
+  if [ -z ${LAST_TAG_VERSION} ]; then
+    GIT_SSL_NO_VERIFY=true git fetch --tags
+    if [ $(git --version | grep -Eo '2.*') ];
+      then export LAST_TAG_VERSION=$(git tag -l --sort="version:refname" | grep -Eo '^v?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(-.*)?$' | grep -ve '-rc\.[0-9]{1,}\+$' | grep -ve '-[0-9]{1,}\+$' | tail -1)
+      else export LAST_TAG_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+    fi
+  fi
+
+# Configure SSH keys for gitlab to grant write access
+.git-ssh-known: &git-ssh-known |
+  which ssh-agent || ( apk update && apk add openssh-client )
+  eval $(ssh-agent -s)
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  mv $CSR_REPORT_KEY ~/.ssh/id_rsa
+  chmod 600 ~/.ssh/id_rsa
+  ssh-keyscan -t rsa git.ecd.axway.org >> ~/.ssh/known_hosts
+  chmod 644 ~/.ssh/known_hosts
+  ssh-add ~/.ssh/id_rsa
+
+# get the CA root cert
+.get-ca-certs: &get-ca-certs |
+  mkdir -p /usr/local/share/ca-certificates/axway.com
+  cp $AXWAY_ROOT_CA /usr/local/share/ca-certificates/axway.com/AxwayRootCA.crt
+  apk update
+  apk add ca-certificates
+  update-ca-certificates
+  if [[ -z "$JAVA_HOME" ]]; then export JAVA_HOME="$(eval ${JAVA_HOME_CMD})"; fi
+  keytool -noprompt -importcert -file /usr/local/share/ca-certificates/axway.com/AxwayRootCA.crt -keystore ${JAVA_HOME}/lib/security/cacerts -alias artifactory -storepass changeit
+
+.run-bd-scan: &run-bd-scan |
+  git config --global url."ssh://git@git.ecd.axway.org/".insteadOf "https://gitlab-ci-token:${CI_JOB_TOKEN}@git.ecd.axway.org/"
+  git config --global url."ssh://git@git.ecd.axway.org".insteadOf "https://git.ecd.axway.org"
+
+  # for scheduled scans, use the latest tagged version for the scan
+  if [[ ${SCHEDULED} == "true" ]]; then
+    git fetch
+    echo "checking out tag version ${LAST_TAG_VERSION}"
+    git checkout -f ${LAST_TAG_VERSION}
+  fi
+  apk update
+  apk add --no-cache nodejs npm
+  npm install -g lerna  
+  # suggested by BD to add this param detect.code.location.name
+  # needed search.depth=1 specifically for go projects with workspaces
+  if [[ ! -z ${FORTIFY_MAVEN_BUILD} ]] || [[ ${FORTIFY_MAVEN_BUILD} == "true" ]]; then
+    curl -k -o settings.xml ${MAVEN_SETTINGS_FILE_URL}
+    java -jar /opt/synopsys-detect.jar --blackduck.url="${BLACKDUCK_URL}" --blackduck.api.token="${BLACKDUCK_API_TOKEN}" \
+      --detect.project.name="${BLACKDUCK_PROJECT_NAME}" --detect.project.version.name=${BLACKDUCK_PROJECT_VERSION} \
+      --blackduck.trust.cert=true --detect.blackduck.scan.mode=${BLACKDUCK_SCAN_MODE} --detect.scan.output.path=${CI_PROJECT_DIR} \
+      --detect.source.path=${BLACKDUCK_SOURCE_PATH} --detect.cleanup=false --detect.wait.for.results=true --detect.force.success=true \
+      --detect.maven.build.command='--settings settings.xml' --detect.maven.excluded.scopes=test,provided \
+      --detect.diagnostic=${BLACKDUCK_DIAGNOSTIC_MODE}
+  else
+    java -jar /opt/synopsys-detect.jar --blackduck.url="${BLACKDUCK_URL}" --blackduck.api.token="${BLACKDUCK_API_TOKEN}" \
+      --detect.project.name="${BLACKDUCK_PROJECT_NAME}" --detect.project.version.name=${BLACKDUCK_PROJECT_VERSION} \
+      --blackduck.trust.cert=true --detect.blackduck.scan.mode=${BLACKDUCK_SCAN_MODE} --detect.scan.output.path=${CI_PROJECT_DIR} \
+      --detect.source.path=${BLACKDUCK_SOURCE_PATH} --detect.cleanup=false --detect.wait.for.results=true --detect.force.success=true \
+      --detect.go.mod.dependency.types.excluded=UNUSED --detect.npm.dependency.types.excluded=DEV --detect.yarn.dependency.types.excluded=NON_PRODUCTION \
+      --detect.diagnostic=${BLACKDUCK_DIAGNOSTIC_MODE}
+  fi
+
+  # for debug logs
+  if [[ ${BLACKDUCK_DIAGNOSTIC_MODE} == "true" ]]; then
+    cp /root/blackduck/runs/*.zip .
+  fi
+
+blackduck:
+  image: ${BLACKDUCK_DOCKER_IMAGE}
+  stage: security-scans
+  rules:
+    - !reference [.default-main-rules, rules]
+  script:
+    - set -x
+    - *git-ssh-known
+    - *run-bd-scan
+  variables:
+    SCHEDULED: "false"
+  artifacts:
+    paths:
+      - ./*.zip
+    expire_in: 1 week
+
+blackduck-rapid:
+  image: ${BLACKDUCK_DOCKER_IMAGE}
+  stage: security-scans
+  script:
+    - set -x
+    - *git-ssh-known
+    - *run-bd-scan
+    - cp ${CI_PROJECT_DIR}/*BlackDuck_DeveloperMode_Result.json scan-blackduck.json
+  variables:
+    SCHEDULED: "false"
+    BLACKDUCK_SCAN_MODE: "RAPID"
+  except:
+    - tags
+    - main
+    - schedules
+    - devo-app-config
+  artifacts:
+    expire_in: "1 week"
+    when: always
+    paths:
+      - scan-blackduck.json
+      - ./*.zip
+
+.fetch-bd:
+  image: ${CSR_DOCKER_IMAGE}
+  stage: security-scans
+  script:
+    - set -x
+    - fetch-blackduck -r "${BLACKDUCK_PROJECT_NAME}" -e "${BLACKDUCK_PROJECT_VERSION}" -t "${BLACKDUCK_API_TOKEN}"
+  artifacts:
+    expire_in: "1 week"
+    when: always
+    paths:
+      - scan-blackduck.json
+
+fetch-blackduck:
+  extends: .fetch-bd
+  rules:
+    - !reference [.default-main-rules, rules]
+  needs:
+    - blackduck
+
+fetch-blackduck:on-schedule:
+  extends: .fetch-bd
+  rules:
+    - !reference [.default-schedule-rules, rules]
+  needs:
+    - blackduck:on-schedule
+  variables:
+    BLACKDUCK_PROJECT_VERSION: "LATEST"
+
+.fetch-tp:
+  image: ${CSR_DOCKER_IMAGE}
+  stage: security-scans
+  script:
+    - set -x
+    - fetch-third-party -r "${BLACKDUCK_PROJECT_NAME}" -e "${BLACKDUCK_PROJECT_VERSION}" -t "${BLACKDUCK_API_TOKEN}"
+  artifacts:
+    expire_in: "1 week"
+    when: always
+    paths:
+      - scan-third-party-policy-violation.json
+
+fetch-third-party:
+  extends: .fetch-tp
+  rules:
+    - !reference [.default-main-rules, rules]
+  needs:
+    - blackduck
+ 
+fetch-third-party:on-schedule:
+  extends: .fetch-tp
+  rules:
+    - !reference [.default-schedule-rules, rules]
+  needs:
+    - blackduck:on-schedule
+  variables:
+    BLACKDUCK_PROJECT_VERSION: "LATEST"
+ 
+blackduck:on-schedule:
+  image: ${BLACKDUCK_DOCKER_IMAGE}
+  stage: security-scans
+  rules:
+    - !reference [.default-schedule-rules, rules]
+  script:
+    - set -x
+    - *git-ssh-known
+    - *get-ca-certs
+    - *get-last-git-tag
+    - *run-bd-scan
+  variables:
+    GIT_STRATEGY: clone
+    GIT_CHECKOUT: "false"
+    SCHEDULED: "true"
+    BLACKDUCK_PROJECT_VERSION: "LATEST"
+  artifacts:
+    paths:
+      - ./*.zip
+    expire_in: 1 week

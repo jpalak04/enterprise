@@ -1,0 +1,28 @@
+# Backstage override configuration for your local development environment
+app:
+  title: Axway R&D and Operations Backstage App-Sandbox
+
+backend:
+  database:
+    prefix: backstage_sandbox_
+tiles:
+  schedule:
+    frequency: { minutes: 1 }
+    timeout: { minutes: 2 }
+  contexts:
+    bshome:
+      url: https://git.ecd.axway.org/sre/self_service_portal/devops-portal/-/blob/devo-app-config/config/devo-app-config.yaml?ref_type=heads
+    ccoe:
+      url: https://git.ecd.axway.org/arch/documentation/-/blob/devo-dev/devo-tiles-info.yaml
+
+catalog:
+  providers:
+  locations:
+    - type: file
+      target: ./amplify/ssp-backstage.yaml
+      rules:
+        - allow: [Component, Group, User, Resource, Location, Template]
+    - type: file
+      target: ./amplify/amplify-extra.yaml
+      rules:  
+      - allow: [Component, API, Group, User, Resource, Location, Template, System]

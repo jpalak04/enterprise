@@ -1,0 +1,186 @@
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: Amplify-Platform
+  description: "Amplify Platform - the core product team"
+spec:
+  type: catalog-line
+  profile:
+    displayName: "Amplify Platform Team"
+    email: amp.platform@axway.com
+    picture: "http://example.com/Amplify-Platform.png"
+  children: [Platform-Services]
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: Platform-Services
+  description: "Service for the platform"
+  annotations:
+    backstage.io/techdocs-ref: url-to-your-techdocs-site # Link to the product documentation
+spec:
+  type: product
+  profile:
+    displayName: "Amplify Platform Team"
+    email: amp.platform@axway.com
+    picture: "http://example.com/Amplify-Platform.png"
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: Central
+  description: "API Central Product"
+  links:
+    - url: https://confluence.axway.com/display/RDAPI/Amplify+Central+Overview
+      title: Amplify Central Home
+      icon: home
+  annotations:
+    backstage.io/techdocs-ref: url-to-your-techdocs-site # Link to the product documentation
+spec:
+  type: product
+  lifecycle: production
+  owner: Amplify-Platform
+  relations:
+    - target: Amplify-Platform
+      type: isOwnedBy
+    - target: person-a
+      type: hasGeneralManager
+    - target: person-b
+      type: hasSPOC
+    - target: person-c
+      type: hasOpsContact
+    - target: person-d
+      type: hasArchitect
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: person-a
+  description: "General Manager responsible for the product roadmap"
+spec:
+  type: person
+  memberOf: [Amplify-Platform]
+
+  profile:
+    displayName: "Person A"
+    email: person.a@example.com
+    picture: "http://example.com/person-a.png"
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: person-b
+  description: "SPOC for product-related queries"
+spec:
+  type: person
+  memberOf: [Amplify-Platform]
+
+  profile:
+    displayName: "Person B"
+    email: person.b@example.com
+    picture: "http://example.com/person-b.png"
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+
+metadata:
+  name: person-c
+  description: "Ops contact for product deployments and maintenance"
+spec:
+  type: person
+  memberOf: [Amplify-Platform]
+  profile:
+    displayName: "Person C"
+    email: person.c@example.com
+    picture: "http://example.com/person-c.png"
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: person-d
+  description: "Software Architect - designs and oversees product architecture"
+spec:
+  type: person
+  memberOf: [Amplify-Platform]
+  profile:
+    displayName: "Person D"
+    email: person.d@example.com
+    picture: "http://example.com/person-d.png"
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Config-Relay-Service
+  description: Config Relay Service
+  tags:
+    - foo
+    - bar
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+spec:
+  type: service
+  subcomponentOf: Central
+  owner: Amplify-Platform
+  lifecycle: production
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Org-User_Managment
+  description: OUM related services
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+spec:
+  type: service
+  subcomponentOf: Platform-Services
+  owner: Amplify-Platform
+  lifecycle: production
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Analytics-Service
+  description: Analytics related services
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+  links:
+    - url: https://confluence.axway.com/display/RDAPI/Amplify+Central+Overview
+      title: Analytics Home
+      icon: github
+
+spec:
+  type: service
+  subcomponentOf: Platform-Services
+  owner: Amplify-Platform
+  lifecycle: production
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Falconer
+  description: XDS Implementation
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+spec:
+  type: service
+  subcomponentOf: Central
+  owner: Amplify-Platform
+  lifecycle: production
+  

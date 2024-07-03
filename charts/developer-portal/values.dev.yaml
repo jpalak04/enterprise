@@ -1,0 +1,4 @@
+ingress:
+  host: developer-portal.dev.ce.axway.int
+  hostDevo: dev.devo.axway.int
+environment: dev

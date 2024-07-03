@@ -1,0 +1,7 @@
+site_name: 'Onboard-User-Docs'
+
+nav:
+  - Home: index.md
+docs_dir: ./input/docs
+plugins:
+  - techdocs-core

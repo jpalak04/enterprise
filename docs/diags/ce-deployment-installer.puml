@@ -1,0 +1,19 @@
+@startuml
+actor "Cloud Operator" as operator
+participant "React Frontend\n(File Upload UI)" as frontend
+participant "Backend\n(RBAC, Credential Loader & Multer)" as backend
+database "AWS\n(S3 Bucket)" as s3
+
+operator -> frontend : Select file and\nchoose product & AWS Account
+frontend -> backend : Initiate file upload\nwith product & AWS account info
+backend -> backend : Verify operator privileges\n(RBAC System)
+alt If operator has necessary privileges
+    backend -> backend : Load specific AWS credentials\nfor the selected product & account
+    backend -> backend : Use Multer to process file upload
+    backend -> s3 : Upload file to S3
+    s3 -> backend : Confirm upload
+    backend -> frontend : Display success message to operator
+else Operator lacks privileges
+    backend -> frontend : Display error message
+end
+@enduml

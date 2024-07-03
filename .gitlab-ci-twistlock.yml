@@ -1,0 +1,57 @@
+include:
+  - local: ".gitlab-ci-rules.yml"
+
+variables:
+  TWISTCLI_URL: "https://artifactory-phx.ecd.axway.int/artifactory/psg-generic-release/twistlock/twistcli_linux"
+  TWISTLOCK_URL: "https://container.ssg.axway.int"
+
+.twistlock:
+  stage: security-scans
+  image: docker:latest
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_VERIFY: ""
+  services:
+  - name: docker:dind
+    command:
+      - /bin/sh
+      - -c
+      - |
+        export DOCKER_TLS_CERTDIR="" &&
+        dockerd-entrypoint.sh --host=tcp://0.0.0.0:2375 --insecure-registry=$DOCKER_REGISTRY_BRANCHES --insecure-registry=$DOCKER_REGISTRY_RELEASES || exit
+    
+  retry: 2
+  script:
+    - set -x
+    - wget --no-check-certificate "${TWISTCLI_URL}" -O twistcli
+    - chmod +x twistcli
+    - ./twistcli -v
+    - docker load < $TW_IMG_NM.tar
+    - ./twistcli -debug images scan --docker-address tcp://docker:2375 --address $TWISTLOCK_URL -u $TWISTLOCK_USERNAME -p $TWISTLOCK_PASSWD -details --output-file scan-twistlock.json $TW_IMG_NM
+    - chmod 666 scan-twistlock.json
+  artifacts:
+    when: always
+    expire_in: "1 day"
+    paths:
+      - scan-twistlock.json
+  allow_failure: true
+  cache:
+    key: ${CI_PIPELINE_ID}
+    paths:
+      - ${TW_IMG_NM}.tar
+
+twistlock:
+  extends: .twistlock
+  except:
+    - tags
+    - main
+    - schedules
+    - devo-app-config
+
+twistlock:on-schedule:
+  extends: .twistlock
+  rules:
+    - !reference [.default-schedule-rules, rules]
+  variables:
+    GIT_STRATEGY: clone
+    GIT_CHECKOUT: "false"

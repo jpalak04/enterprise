@@ -1,0 +1,35 @@
+@startuml
+' allows using components within other elements
+allowmixing
+
+package "App" {
+    component "App Component" as App
+    component "useUserRoles Hook" as useUserRoles
+}
+
+package "Contexts" {
+    component "PermissionContext" as PermissionContext
+    component "PermissionProvider" as PermissionProvider
+}
+
+package "Hooks" {
+    component "usePermissions Hook" as usePermissions
+}
+
+package "Components" {
+    component "MyComponent" as MyComponent
+}
+
+package "Constants & Enums" {
+    component "AppPermission Enum" as AppPermission
+}
+
+App --> useUserRoles : uses
+App --> PermissionProvider : provides
+useUserRoles --> PermissionProvider : passes "roles"
+PermissionProvider --> PermissionContext : provides
+MyComponent --> usePermissions : uses
+usePermissions --> PermissionContext : accesses
+usePermissions --> AppPermission : checks against
+
+@enduml

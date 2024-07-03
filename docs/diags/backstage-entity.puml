@@ -1,0 +1,58 @@
+@startuml
+
+class Component {
+  +name: String
+  +description: String
+}
+note right of Component : Represents a lower-level service\nor part of a system.
+
+class Template {
+  +name: String
+}
+note top of Template : Defines templates that create Components.
+
+class API {
+  +endpoint: String
+}
+note right of API : Endpoints exposed by\ncomponents for interaction.
+
+class Group {
+  +name: String
+}
+note top of Group : A logical grouping of users.
+
+class User {
+  +username: String
+}
+note bottom of User : Individual users who may\ninteract with the components or systems.
+
+class Resource {
+  +name: String
+}
+note right of Resource : A shared resource within\nthe system (e.g., a database).
+
+class System {
+  +name: String
+  +description: String
+}
+note left of System : Represents a high-level service\nthat may contain various components.
+
+class Domain {
+  +name: String
+}
+note left of Domain : A high-level grouping\nthat may contain one or more systems.
+
+class Location {
+  +url: String
+}
+note top of Location : The reference location for a\ncomponent, possibly representing\na repository or path.
+
+System "1" --> "*" Component : contains
+Component "1" --> "*" API : exposes
+Group "1" --> "*" User : has
+System "1" --> "*" Resource : uses
+Domain "1" --> "*" System : contains
+Location "1" --> "*" Component : references
+Template "1" --> "*" Component : creates
+
+@enduml

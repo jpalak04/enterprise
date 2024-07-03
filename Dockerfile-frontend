@@ -1,0 +1,24 @@
+# --- Frontend Build Stage ---
+FROM node:18 AS frontend-builder
+
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+COPY packages/app packages/app
+
+RUN yarn install --frozen-lockfile && \
+    yarn workspace app build
+
+# --- Frontend Runtime Stage ---
+FROM nginx:alpine
+
+# Copy the built frontend assets
+COPY --from=frontend-builder /app/packages/app/build /usr/share/nginx/html
+
+# Copy the static configuration file(s)
+COPY amplify/ssp-backstage.yaml /usr/share/nginx/html/amplify/ssp-backstage.yaml
+COPY amplify/amplify-extra.yaml /usr/share/nginx/html/amplify/amplify-extra.yaml
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

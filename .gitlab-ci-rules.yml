@@ -1,0 +1,38 @@
+  # The default rules for branch pipelines:
+  # 1) never run for schedules
+  # 2) always run for merge requests
+  # 3) run on branchs (main or other) only if the flag is set
+  # anything else, don't run
+.default-branch-rules:
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: on_success
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == "devo-app-config"
+      when: neveer
+
+  # The default rules for main pipelines:
+  # 1) run if flag is set
+  # 2) always run for main if not a schedule
+  # anything else, don't run
+.default-main-rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "api"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"
+      when: on_success
+
+# The default rules for schedule pipelines:
+# 1) always run for schedules on the default branch
+.default-schedule-rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+  # rule for never run
+.never-rules:
+  rules:
+    when: never
+

@@ -1,0 +1,70 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "productTiles": {
+            "description": "Configuration for product tiles, directly incorporating necessary properties",
+            "items": {
+                "properties": {
+                    "color": {
+                        "type": "string"
+                    },
+                    "contentDescription": {
+                        "type": "string"
+                    },
+                    "context": {
+                        "type": "string"
+                    },
+                    "headerSubtitle": {
+                        "type": "string"
+                    },
+                    "headerTitle": {
+                        "type": "string"
+                    },
+                    "tiles": {
+                        "items": {
+                            "properties": {
+                                "description": {
+                                    "type": "string"
+                                },
+                                "externalLink": {
+                                    "type": "string"
+                                },
+                                "link": {
+                                    "type": "string"
+                                },
+                                "styleName": {
+                                    "type": "string"
+                                },
+                                "subtitle": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "description",
+                                "link",
+                                "subtitle",
+                                "title"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "contentDescription",
+                    "context",
+                    "headerSubtitle",
+                    "headerTitle",
+                    "tiles"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
+

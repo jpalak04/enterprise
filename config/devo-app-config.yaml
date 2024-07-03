@@ -1,0 +1,77 @@
+---
+productTiles:
+  - context: bshome
+    headerTitle: DEVO- Home
+    headerSubtitle: DevOps Portal Home Navigation Page
+    contentDescription: The tiles below will take you to other aggregator pages
+    tiles:
+      - title: About Devo
+        subtitle: " "
+        link: "/product-tiles/bshome.devo"
+        description: Quick Links for DEVO Documentation
+        styleName: greenBlue
+      - title: Cloud Engineering
+        subtitle: " "
+        link: "/product-tiles/ce"
+        styleName: greenBlue
+        description: Quick Links for Cloud Engineering Areas
+      - title: Cloud Operations
+        subtitle: " "
+        link: "/product-tiles/cloudops"
+        styleName: greenBlue
+        description: Quick Links for Cloud Operations Areas
+      - title: Cloud Center of Excellence
+        subtitle: " "
+        description: Comprehensive pages on Axway Cloud Best Practices
+        styleName: greenBlue
+        link: "/product-tiles/ccoe"
+      - title: Software Catalog
+        subtitle: " "
+        styleName: orangeYellow
+        description: Review Axway Software Ecosystem
+        link: "/catalog"
+      - title: Products Home
+        subtitle: " "
+        description: Comprehensive pages on Axway Products
+        styleName: orangeYellow
+        link: "/product-tiles/axway-products"
+      - title: Axway Anywhere
+        subtitle: " "
+        description: IT Service Requests for Axway Anywhere
+        styleName: blueViolet
+        link: https://eu8-smax.saas.microfocus.com/saw/ess?TENANTID=223939732
+        externalLink: 'true'
+      - title: Axway Self Service Portal
+        subtitle: " "
+        description: Create Service Requests for RDTools
+        styleName: blueViolet
+        link: https://service-portal.axway.int/home
+        externalLink: 'true'
+      - title: Axway Security
+        subtitle: " "
+        description: IT Service Requests for Axway Anywhere
+        styleName: blueViolet
+        link: https://confluence.axway.com/display/ACS/Axway+Software+Security+Group+%28SSG%29+-+formerly+PSG
+        externalLink: 'true'
+  - context: bshome.devo
+    headerTitle: DEVO- About
+    headerSubtitle: DevOps Portal Informational Page
+    contentDescription: The tiles below will allow you to learn more about DEVO
+    tiles:
+      - title: DEVO Feature Docs
+        subtitle: " "
+        link: "/product-tiles/bshome.devo.features"
+        styleName: greenBlue
+        description: Quick Links for DEVO Features
+  - context: bshome.devo.features
+    headerTitle: DEVO- Features
+    headerSubtitle: DEVO Feature Pages
+    contentDescription: The tiles below will allow you to learn more about implemented features within DEVO
+    tiles:
+      - title: Product Tile
+        subtitle: " "
+        link: "https://confluence.axway.com/display/ce/Product+Tiles+Usage"
+        styleName: greenBlue
+        description: How To for Product Tiles
+        externalLink: 'true'
+

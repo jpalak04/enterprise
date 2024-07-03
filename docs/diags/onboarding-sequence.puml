@@ -1,0 +1,81 @@
+ @startuml
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v16.0/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml/Containers/EKSCloud.puml
+!include AWSPuml/General/all.puml
+!include AWSPuml/DeveloperTools/CodeArtifact.puml
+
+actor User
+participant "<color:$AWS_COLOR_SMILE><$Client></color>\nFrontend\nApplication" as Frontend
+participant "<color:$AWS_COLOR_SMILE><$Servers></color>\nBackend\n(BFF)" as BFF
+participant "<color:$AWS_COLOR_SMILE><$Question></color>\nJira" as Jira
+participant "<color:$AWS_COLOR_SMILE><$AWSCloud></color>\nAWS" as AWS
+participant "<color:$AWS_COLOR_SMILE><$GitRepository></color>\nGitLab" as gitlab
+participant "<color:$AWS_COLOR_SMILE><$EKSCloud></color>\nk8s" as k8s
+participant "<color:$AWS_COLOR_SMILE><$CodeArtifact></color>\nCrucible" as Crucible
+
+
+
+User -> Frontend: Provide user details for onboarding
+Frontend -> BFF: Initiate onboarding process with user details
+alt  "Creating Jira Tickets"
+BFF -> Jira: Create New User ticket for Jira
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for gitlab
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for AWS
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for k8s
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for Crucible
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for SonarQube
+Jira --> BFF: Confirmation
+
+BFF -> Jira: Create New User ticket for Other
+Jira --> BFF: Confirmation
+
+BFF -> Frontend: Notify completion of onboarding process
+Frontend -> User: Display onboarding status
+
+else "Perform integration"
+
+
+
+BFF -> gitlab: Create New User
+gitlab --> BFF: Confirmation
+BFF -> gitlab: Add to Group(s)
+gitlab --> BFF: Confirmation
+note top: "More than likely these integrations\nwould be configured jobs and not direct API calls,\nbut the portal could facilitate the job execution as part of this automation"
+
+
+BFF -> Jira: Add User
+Jira --> BFF: Confirmation
+BFF -> Jira: Assign Roles
+Jira --> BFF: Confirmation
+
+BFF -> AWS: Create new User
+AWS --> BFF: Confirmation
+BFF -> AWS: Add User to Account
+AWS --> BFF: Confirmation
+
+BFF -> k8s: Setup new user with namespace
+k8s --> BFF: Confirmation
+
+
+BFF -> Crucible: Create new user with appropriate roles
+Crucible --> BFF: Confirmation
+
+BFF -> Frontend: Notify completion of onboarding process
+Frontend -> User: Display onboarding status
+end
+@enduml
+
+ 

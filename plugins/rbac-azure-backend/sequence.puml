@@ -1,0 +1,78 @@
+@startuml
+
+participant "DEVO RBAC Admin" as User
+participant "RBAC Service" as RBAC
+participant "Azure AD" as AAD
+
+User -> RBAC: Request to Find User: "GET api/rbac/users?email=<email>"
+RBAC -> AAD: Azure lookup for user
+AAD --> RBAC: Return User Object
+RBAC --> User: User Object returned
+
+User -> RBAC: Request to List All Roles: "GET api/rbac/roles"
+RBAC -> AAD: Azure lookup for ALL application registration roles
+AAD --> RBAC: List of roles assigned to the application registration
+RBAC --> User: List of roles returned
+
+User -> RBAC: Request to List All Groups: "GET api/rbac/groups?prefix=<prefix>"
+RBAC -> AAD: Azure lookup for groups
+AAD --> RBAC: List of groups returned
+RBAC --> User: List of groups returned
+
+User --> RBAC: Request to list all roles within a group: "GET api/rbac/groups/<group_id>/roles"
+note right of User
+The group_id is the id of the group from
+GET api/rbac/groups?prefix=<prefix>
+end note
+RBAC -> AAD: Azure lookup for roles
+AAD --> RBAC: List of roles assigned to the group
+RBAC --> User: List of roles returned
+
+User--> RBAC: Request to list all users within a group: "GET api/rbac/groups/<group_id>/members"
+note right of User
+The group_id is the id of the group from
+GET api/rbac/groups?prefix=<prefix>
+end note
+RBAC -> AAD: Azure lookup for users in group
+AAD --> RBAC: List of users assigned to the group
+RBAC --> User: List of users returned
+
+
+User -> RBAC: Request to Add User to Group: "POST api/rbac/groups/<group_id>/members/<user_id>"
+note right of User
+The user_id is the id of the user from
+GET api/rbac/users?email=<email>
+end note
+RBAC -> AAD: Add user to group
+AAD --> RBAC: User added to group confirmation
+RBAC --> User: User added to group confirmation
+
+User -> RBAC: Request to Remove User from Group: "DELETE api/rbac/groups/<group_id>/members/<user_id>"
+note right of User
+The user_id is the id of the user from
+GET api/rbac/users?email=<email>
+end note
+RBAC -> AAD: Remove user from group
+AAD --> RBAC: User removed from group confirmation
+RBAC --> User: User removed from group confirmation
+
+User -> RBAC: Request to Assign Role to Group: "POST api/rbac/groups/<group_id>/roles/<role_id>"
+note right of User
+The role_id is the id of the role from
+GET api/rbac/roles
+end note
+RBAC -> AAD: Assign role to group
+AAD --> RBAC: Role assigned to group confirmation
+RBAC --> User: Role assigned to group confirmation
+
+User -> RBAC: Request to Remove Role from Group: "DELETE api/rbac//servicePrincipal/roleAssignment/<roleAssignmentId>"
+note right of User
+The roleAssignmentId is the id of the role assignment from
+GET api/rbac/groups/<group_id>/roles
+end note
+RBAC -> AAD: Remove role from group
+AAD --> RBAC: Role removed from group confirmation
+RBAC --> User: Role removed from group confirmation
+
+
+@enduml

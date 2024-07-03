@@ -1,0 +1,12 @@
+@startuml
+start
+:Configure GitLab Groups in Backstage Config;
+:Periodically Scan GitLab Groups for .yaml Config Files;
+if (Config File Found?) then (yes)
+  :Parse .yaml to Identify Services;
+  :Register Services in Backstage Catalog;
+else (no)
+  :Wait for Next Scan Cycle;
+endif
+stop
+@enduml

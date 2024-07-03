@@ -1,0 +1,15 @@
+image:
+  repository: postgres
+  tag: 12
+
+environment:
+  POSTGRES_USER: backstage
+  POSTGRES_PASSWORD: backstage1234
+  POSTGRES_DB: backstage
+
+service:
+  port: 5432
+
+volume:
+  name: postgres-data
+  path: /var/lib/postgresql/data

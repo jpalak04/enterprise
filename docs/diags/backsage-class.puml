@@ -1,0 +1,28 @@
+@startuml BackstageApplication
+
+class Application {
+}
+
+package Plugins {
+    class Plugin1 {
+        +Routes
+        +Components
+        +APIs
+        +State
+    }
+    class Plugin2 {
+        +Routes
+        +Components
+        +APIs
+        +State
+    }
+    class PluginN {
+        +Routes
+        +Components
+        +APIs
+        +State
+    }
+}
+
+Application -- Plugins : contains
+@enduml

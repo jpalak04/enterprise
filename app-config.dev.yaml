@@ -1,0 +1,47 @@
+# Backstage override configuration for your local development environment
+app:
+  title: Axway R&D and Operations Backstage App-DEV
+
+backend:
+  database:
+    prefix: backstage_dev_
+
+catalog:
+  rules:
+    - allow: [ System, Group, Resource, Domain, System, Resource, User, Group, Component, API, Location, Template ]
+      locations:
+        - type: "url"
+          pattern: "https://git.ecd.axway.org/sre/**"
+  providers:
+    gitlab:
+      gitlab-sre: # This is your custom provider ID
+        host: git.ecd.axway.org
+        branch: devo-app-config
+        fallbackBranch: devo-app-config
+        skipForkedRepos: false
+        group: sre
+        entityFilename: catalog-info.yaml
+        projectPattern: '[\s\S]*'
+        schedule:
+          frequency: { minutes: 10 }
+          timeout: { minutes: 3 }
+      gitlab-b2bi: # B2Bi Provider ID for DEV
+        host: git.ecd.axway.org
+        branch: devo-app-config
+        fallbackBranch: devo-app-config
+        skipForkedRepos: false
+        group: b2bi
+        entityFilename: catalog-info.yaml
+        projectPattern: '[\s\S]*'
+        schedule:
+          frequency: { minutes: 10 }
+          timeout: { minutes: 3 }
+tiles:
+  schedule:
+    frequency: { minutes: 1 }
+    timeout: { minutes: 2 }
+  contexts:
+    bshome:
+      url: https://git.ecd.axway.org/sre/self_service_portal/devops-portal/-/blob/devo-app-config/config/devo-app-config.yaml?ref_type=heads
+    ccoe:
+      url: https://git.ecd.axway.org/arch/documentation/-/blob/devo-dev/devo-tiles-info.yaml

@@ -1,0 +1,205 @@
+---
+app:
+  title: Axway R&D and Operations Portal
+  baseUrl: ${APP_BASE_URL}
+
+organization:
+  name: Axway Software
+
+backend:
+  # Used for enabling authentication, secret is shared by all backend plugins
+  # See https://backstage.io/docs/auth/service-to-service-auth for
+  # information on the format
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
+  baseUrl: ${BACKEND_BASE_URL}
+  listen:
+    port: ${BACKEND_PORT}
+    # Uncomment the following host directive to bind to specific interfaces
+    # host: 127.0.0.1
+  csp:
+    frame-src: ["'self'", 'http:', 'https:', 'https://dora.phx.axway.int']
+    connect-src: ["'self'", 'http:', 'https:', 'https://dora.phx.axway.int']
+    # Content-Security-Policy directives follow the Helmet
+    # format: https://helmetjs.github.io/#reference
+    # Default Helmet Content-Security-Policy values can be removed by setting
+    # the key to false
+  reading:
+    allow:
+      - host: apicentral.axway.com
+      - host: gist.githubusercontent.com
+      - host: dora.phx.axway.int
+  cors:
+    origin: ${APP_BASE_URL}
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+    # This is for local development only, it is not recommended to use this in
+    # production The production database configuration is stored in
+    # app-config.production.yaml database:
+    #    client: better-sqlite3
+    #    connection: ':memory:'
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      database: ${POSTGRES_DB}
+      # workingDirectory: /tmp # Use this to configure a working directory
+      # for the scaffolder, defaults to the OS temp-dir
+
+integrations:
+  github:
+    - host: github.com
+      # This is a Personal Access Token or PAT from GitHub. You can find out
+      # how to generate this token, and more information
+      # about setting up the GitHub integration here:
+      # https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      token: ${GITHUB_TOKEN}
+      ### Example for how to add your GitHub Enterprise instance using the API:
+      # - host: ghe.example.net
+      #   apiBaseUrl: https://ghe.example.net/api/v3
+      #   token: ${GHE_TOKEN}
+  gitlab:
+    - apiBaseUrl: https://git.ecd.axway.org/api/v4
+      host: git.ecd.axway.org
+      token: ${GITLAB_TOKEN}
+
+proxy:
+# Example for how to add a proxy endpoint for the frontend.
+# A typical reason to do this is to handle HTTPS and CORS for internal
+# services.
+# '/test':
+#   target: 'https://example.com'
+#   changeOrigin: true
+
+# Reference documentation
+# http://backstage.io/docs/features/techdocs/configuration
+# Note: After experimenting with basic setup, use CI/CD to generate docs
+# and an external cloud storage when deploying TechDocs for production
+# use-case.
+# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
+techdocs:
+  builder: 'local'   # Alternatives - 'external'
+  generator:
+    runIn: 'docker'  # Alternatives - 'local'
+  publisher:
+    type: 'local'
+    # Alternatives - 'googleGcs' or 'awsS3'.
+    # Read documentation for using alternatives.
+
+auth:
+  environment: development
+  providers:
+    microsoft:
+      development:
+        clientId: ${AZ_CLIENT_ID}
+        clientSecret: ${AZ_CLIENT_SECRET}
+        tenantId: ${AZ_TENANT_ID}
+        domainHint: ${AZ_DOMAIN_HINT}
+
+scaffolder:
+# see https://backstage.io/docs/features/software-templates/configuration
+# for software template options
+
+ceDeployment:
+  products:
+    - value: B2Bi
+    - value: MFT
+    - value: AFAH
+    - value: FOO
+  awsAccounts:
+    - value: "R&D account"
+      label: R&D Account
+      s3:
+        accessKey: ${RD_ACCESS_KEY}
+        accessKeySecret: ${RD_ACCESS_KEY_SECRET}
+        awsRegion: us-west-2
+        bucket: ce-developer-portal-upload
+    - value: "CE account"
+      label: CE Account
+    - value: "Cloud Ops account"
+      label: Cloud Ops Account
+
+productTiles:
+  products:
+    - singleProduct:
+      title: B2Bi
+      subTitle: "B2Bi subtitle"
+    - singleProduct:
+      title: MFT
+      subTitle: "MFT subtitle"
+    - singleProduct:
+      title: AFAH
+      subTitle: "AFAH subtitle"
+    - singleProduct:
+      title: FOO
+      subTitle: "FOO subtitle"
+
+catalog:
+  providers:
+    gitlab:
+      gitlab-sre:  # This is your custom provider ID
+        host: git.ecd.axway.org
+        branch: main
+        fallbackBranch: main
+        skipForkedRepos: false
+        group: sre
+        entityFilename: catalog-info.yaml
+        projectPattern: '[\s\S]*'
+        schedule:
+          frequency: {minutes: 2}
+          timeout: {minutes: 3}
+
+    # Local example data, file locations are relative to the backend process,
+    # typically `packages/backend`
+    #- type: file
+    #  target: ../../amplify/entities.yaml
+
+    # Local example template
+    #- type: file
+    #  target: ../../amplify/template/template.yaml
+    #  rules:
+    #    - allow: [Template]
+
+    # Local example organizational data
+    #- type: file
+    #  target: ../../amplify/org.yaml
+    #  rules:
+    #    - allow: [User, Group]
+    #- type: file
+    #  target: ../../examples/entities.yaml
+
+#    - type: file
+#      target: ./amplify/ssp-backstage.yaml
+#      rules:
+#        - allow: [Component, Group, User, Resource, Location, Template]
+#    - type: file
+#      target: ./amplify/amplify-extra.yaml
+#      rules:
+#        - allow: [Component, API, Group, User, Resource, Location, Template]
+#    # Local example template
+    #- type: file
+    #  target: ../../examples/template/template.yaml
+    #  rules:
+    #    - allow: [Template]
+
+    # Local example organizational data
+    #- type: file
+    #  target: ../../examples/org.yaml
+    #  rules:
+    #    - allow: [User, Group]
+
+
+
+    ## Uncomment these lines to add more example data
+    #- type: url
+    #  target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+
+    ## Uncomment these lines to add an example org
+    #- type: url
+    #  target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
+    #  rules:
+    #    - allow: [User, Group]

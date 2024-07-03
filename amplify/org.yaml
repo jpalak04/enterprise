@@ -1,0 +1,104 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-user
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: ccoy
+spec:
+  memberOf: [Axway]
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: Axway
+spec:
+  type: organization
+  children: []
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: apigov
+  description: API Governance
+spec:
+  type: team
+  parent: Axway
+  system: Amplify
+  children: [
+    3rdparty,
+    docker,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: 3rdparty
+  description: 3rdparty
+spec:
+  type: team
+  parent: apigov
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Apigee-Agents-Service
+  description: Apigee Agents Service
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Apigee-Agents-Service
+spec:
+  type: service
+  isSubComponentOf: 
+  owner: apigov
+  lifecycle: experimental
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Onboard-User
+  links:
+    - url: https://dashboard.example.com
+      title: Axway Anywhere
+      icon: dashboard
+    - url: https://dashboard.example.com
+      title: RD Tools Portal
+      icon: dashboard
+  description: Instruction for onbarding a new user
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs/Onboard-User
+spec:
+  type: instructions
+  owner: Axway
+  lifecycle: production
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gitlabci
+  description: gitlabci
+spec:
+  type: service
+  owner: apigov
+  lifecycle: experimental
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: GitHub-Discovery-Service
+  description: GitHub Discovery Service
+spec:
+  type: service
+  owner: apigov
+  lifecycle: experimental
+---
+

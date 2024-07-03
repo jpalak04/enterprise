@@ -1,0 +1,45 @@
+@startuml
+!theme plain
+
+package "ProductTilesConfig" {
+  class bshome {
+    context: "bshome"
+    headerTitle: "DEVO- Home"
+    ...
+  }
+  class ccoe {
+    context: "ccoe"
+    headerTitle: "Cloud Center of Excellence"
+    ...
+  }
+  class axway_products {
+    context: "axway-products"
+    headerTitle: "Axway Products"
+    ...
+  }
+  class b2bi {
+    context: "b2bi"
+    headerTitle: "B2Bi Product Page"
+    ...
+  }
+  class afah {
+    context: "afah"
+    headerTitle: "AFAH Product Page"
+    ...
+  }
+  class ce {
+    context: "ce"
+    headerTitle: "Cloud Engineering"
+    ...
+  }
+}
+
+bshome --> ccoe : links to
+bshome --> axway_products : links to
+bshome --> ce : links to
+ccoe --> "https://confluence.axway.com/display/ARCH/Cloud+Center+of+Excellence" : links to
+axway_products --> b2bi : links to
+axway_products --> afah : links to
+ce --> ccoe : links to
+
+@enduml

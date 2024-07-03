@@ -1,0 +1,3504 @@
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: Axway
+  description: "Top-Level Org"
+spec:
+  type: organization
+  children: [
+    afah,
+    amplify,
+    analytics,
+    b2b,
+    itom,
+    mft,
+    misc,
+    other,
+    validation-authority,
+    cloud-engineering
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: afah
+  description: "Catlog Line For AFAH"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    financial-accounting-hub,
+    datastore,
+    composer,
+    accountingintegrator,
+    interplay,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: mourad-jaakou
+  description: "GM Product Line"
+spec:
+  type: person
+  memberOf: [Amplify]
+  profile:
+    displayName: "Mourad Jaakou"
+    email: mjaakou@axway.com
+    picture: "http://example.com/person-d.png"
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: eric-merriman
+  description: "R&D Leader"
+spec:
+  type: person
+  memberOf: [Amplify]
+  profile:
+    displayName: "Eric Merriman"
+    email: emerriman@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: juan-nunez
+  description: "R&D Leader"
+spec:
+  type: person
+  memberOf: [Amplify]
+  profile:
+    displayName: "Juan Nunez"
+    email: jununez@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: aidan-holmes 
+  description: "R&D Leader"
+spec:
+  type: person
+  memberOf: [Amplify]
+  profile:
+    displayName: "Aidan Holmes"
+    email: aholmes@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: vipul-tummala 
+  description: "R&D Leader"
+spec:
+  type: person
+  memberOf: [Amplify]
+  profile:
+    displayName: "Vipul Tummala"
+    email: vtummala@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: bas-van-den-berg
+  description: "Product Leader"
+spec:
+  type: person
+  memberOf: [amplify-api-platform]
+  profile:
+    displayName: "Bas Van Den Berg"
+    email:  bvandenberg@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jd-namburi
+
+  description: "Engineering Management"
+spec:
+  type: person
+  memberOf: [amplify-api-platform]
+  profile:
+    displayName: "Jd Namburi"
+    email:  jnamburi@axway.com
+    picture: "http://example.com/person-d.png"
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: financial-accounting-hub
+  description: "Product Group For Financial Accounting Hub"
+spec:
+  type: product
+  parent: afah
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-ai-services-2.4
+  description: "Master Data Component AIS - AI Services 2.4"
+spec:
+  type: service
+  owner: financial-accounting-hub
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-portal
+  description: "Master Data Component AIS - Portal"
+spec:
+  type: service
+  owner: financial-accounting-hub
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-financial-accounting-hub
+  description: "Master Data Component AIS - Financial Accounting Hub"
+spec:
+  type: service
+  owner: financial-accounting-hub
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: datastore
+  description: "Product Group For Datastore"
+spec:
+  type: product
+  parent: afah
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-datastore-runtime
+  description: "Master Data Component AIS - DataStore Runtime"
+spec:
+  type: service
+  owner: datastore
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-datastore-client
+  description: "Master Data Component AIS - DataStore Client"
+spec:
+  type: service
+  owner: datastore
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: composer
+  description: "Product Group For Composer"
+spec:
+  type: product
+  parent: afah
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-composer
+  description: "Master Data Component AIS - Composer"
+spec:
+  type: service
+  owner: composer
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: accountingintegrator
+  description: "Product Group For AccountingIntegrator"
+  annotations:
+    gitlab.cicd: 'data for the projects'
+    jenkins.cicd: 'data for the projects'
+spec:
+  type: product
+  parent: afah
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-rule-engine-server
+  description: "Master Data Component AIS - Rule Engine Server"
+spec:
+  type: service
+  owner: accountingintegrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-composer-enabler
+  description: "Master Data Component AIS - Composer Enabler"
+spec:
+  type: service
+  owner: accountingintegrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-rule-engine
+  description: "Master Data Component AIS - Rule Engine"
+spec:
+  type: service
+  owner: accountingintegrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-rule-engine-snapshot
+  description: "Master Data Component AIS - Rule Engine Snapshot"
+spec:
+  type: service
+  owner: accountingintegrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-ai-suite-studio
+  description: "Master Data Component AIS - AI Suite Studio"
+spec:
+  type: service
+  owner: accountingintegrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: interplay
+  description: "Product Group For InterPlay"
+spec:
+  type: product
+  parent: afah
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-admin-ui
+  description: "Master Data Component AIS - Admin UI"
+spec:
+  type: service
+  owner: interplay
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-designer
+  description: "Master Data Component AIS - Designer"
+spec:
+  type: service
+  owner: interplay
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ais-report-server
+  description: "Master Data Component AIS - Report Server"
+spec:
+  type: service
+  owner: interplay
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: amplify
+  description: "Catlog Line For Amplify"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    amplify-api-builder,
+    amplify-api-platform,
+    api-portal,
+    cloudentity-authorization-control-plane,
+    api-manager,
+    api-builder,
+    axway-streams,
+    amplify-integration,
+    api-gateway,
+    amplify-open-banking,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: amplify-api-builder
+  description: "Product Group For Amplify API Builder"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-builder
+  description: "Master Data Component Amplify - API Builder"
+spec:
+  type: service
+  owner: amplify-api-builder
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-builder-lts
+  description: "Master Data Component Amplify - API Builder LTS"
+spec:
+  type: service
+  owner: amplify-api-builder
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: amplify-api-platform
+  description: "Product Group For Amplify API Platform"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-cli
+  description: "Master Data Component Amplify - Axway CLI"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-marketplace
+  description: ""
+  tags:
+    - java
+    - shell
+    - smarty
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/marketplace
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-istio-discovery-agent
+  description: "Istio Discovery Agent based off the Agents SDK"
+  tags:
+    - mustache
+    - dockerfile
+    - go
+    - shell
+    - makefile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/istio_discovery_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-azure-traceability-agent
+  description: ""
+  tags:
+    - go
+    - shell
+    - makefile
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/azure_traceability_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-apigee-agents
+  description: "This project is a mirror from GitHub.com/Axway/agents-apigee for the purpose of performing security jobs."
+  tags:
+    - go
+    - makefile
+    - dockerfile
+    - shell
+    - javascript
+  links:
+    - title: Website
+      url: https://github.com/Axway/agents-apigee
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-als-traceability-agent
+  description: ""
+  tags:
+    - go
+    - shell
+    - makefile
+    - dockerfile
+    - mustache
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/als_traceability_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-catalog
+  description: "Master Data Component Amplify - APIC Catalog"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-products-catalog-controller-service
+  description: "Master Data Component Amplify - APIC Products Catalog Controller Service"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-linter
+  description: "Master Data Component Amplify - API Linter"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-broker
+  description: "Master Data Component Amplify - APIC Broker"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-falconer
+  description: ""
+  tags:
+    - dockerfile
+    - go
+    - makefile
+    - lua
+    - mustache
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/falconer
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-webmethods-agents
+  description: ""
+  tags:
+    - go
+    - dockerfile
+    - makefile
+    - shell
+  links:
+    - title: Website
+      url: https://github.com/Axway/agents-webmethods
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-aws-agent-config
+  description: "Master Data Component Amplify - APIC AWS Agent Config"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-asset-web
+  description: ""
+  tags:
+    - typescript
+    - javascript
+    - scss
+    - css
+    - tsx
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/asset-web
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-client-registry
+  description: ""
+  tags:
+    - java
+    - shell
+    - mustache
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/apiclientreg
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-agent-sdk
+  description: "Master Data Component Amplify - APIC Agent SDK"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-aws-traceability-agent
+  description: ""
+  tags:
+    - dockerfile
+    - go
+    - shell
+    - makefile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/aws_apigw_traceability_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-traceability-connector
+  description: "Master Data Component Amplify - APIC Traceability Connector"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-watch-controller
+  description: "A GRPC server for subscribing to Amplify Central events"
+  tags:
+    - makefile
+    - dockerfile
+    - smarty
+    - shell
+    - go
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/watch-controller
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-config-library
+  description: ""
+  tags:
+    - java
+    - shell
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/config-library
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-filebeat
+  description: ""
+  tags:
+    - shell
+    - mustache
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/apicentral_dbeat
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-central
+  description: "Master Data Component Amplify - APIC Central"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-api-central-cli
+  description: "Master Data Component Amplify - APIC API Central CLI"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-azure-discovery-agent
+  description: ""
+  tags:
+    - dockerfile
+    - go
+    - shell
+    - makefile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/azure_discovery_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-manager-web
+  description: "Master Data Component Amplify - APIC Manager Web"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-platform
+  description: "Master Data Component Amplify - APIC Platform"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-mulesoft-agents
+  description: "This project is a mirror from GitHub.com/Axway/agents-mulesoft for the purpose of performing security jobs."
+  tags:
+    - go
+    - shell
+    - makefile
+    - dockerfile
+  links:
+    - title: Website
+      url: https://github.com/Axway/agents-mulesoft
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-marketplace-billing
+  description: ""
+  tags:
+    - shell
+    - smarty
+    - dockerfile
+    - java
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/marketplace-billing
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-nginx-config
+  description: ""
+  tags:
+    - java
+    - shell
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/ngnix_config
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-saas-envoy
+  description: "Master Data Component Amplify - APIC SaaS Envoy"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-v7-traceability-agent
+  description: ""
+  tags:
+    - makefile
+    - smarty
+    - dockerfile
+    - go
+    - shell
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/v7_traceability_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-v7-discovery-agent
+  description: ""
+  tags:
+    - go
+    - shell
+    - makefile
+    - smarty
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/v7_discovery_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-compliance-controller
+  description: ""
+  tags:
+    - smarty
+    - dockerfile
+    - java
+    - shell
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/compliance-controller
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-linting-controller
+  description: ""
+  tags:
+    - typescript
+    - javascript
+    - shell
+    - dockerfile
+    - smarty
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/linting-controller
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-marketplace-web
+  description: "UI of marketplace, owned by Oxygen team."
+  tags:
+    - tsx
+    - typescript
+    - scss
+    - javascript
+    - mustache
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/marketplace-web
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-unified-catalog
+  description: "unified-catalog service stores different Catalog Items with a different structure of required information. Eg: swaggerv2/swaggerv3/MFT service definitions/ACE flows.\r\n"
+  tags:
+    - mustache
+    - shell
+    - smarty
+    - dockerfile
+    - java
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/unified-catalog
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-catalog-web
+  description: ""
+  tags:
+    - tsx
+    - typescript
+    - css
+    - scss
+    - javascript
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/catalog-web
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-config-service
+  description: "Master Data Component Amplify - APIC Config Service"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-aws-discovery-agent
+  description: ""
+  tags:
+    - go
+    - shell
+    - makefile
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/aws_apigw_discovery_agent
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-elk-fluent-bit
+  description: "ELK stack for API Central"
+  tags:
+    - lua
+    - groovy
+    - mustache
+    - shell
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/apicentral-elk
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-elk-fluentd
+  description: "Master Data Component Amplify - APIC ELK FluentD"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-feature-flags
+  description: ""
+  tags:
+    - java
+    - shell
+    - mustache
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/feature-flags
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-asset-controller
+  description: ""
+  tags:
+    - dockerfile
+    - java
+    - shell
+    - smarty
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/asset-controller
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-agents-controller
+  description: ""
+  tags:
+    - java
+    - shell
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/api-platform
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-cli
+  description: "Master Data Component Amplify - Axway Repository - CLI"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-test
+  description: "Master Data Component Amplify - APIC test"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-runtime-services
+  description: "Master Data Component Amplify - API Runtime Services"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-analytics-mediation-layer
+  description: "Master Data Component Amplify - Analytics Mediation Layer"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-arrow-cloud-kubernetes
+  description: "Master Data Component Amplify - Arrow - Cloud - Kubernetes"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-id
+  description: "Master Data Component Amplify - Axway ID"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository
+  description: "Master Data Component Amplify - Axway Repository"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-binary-server
+  description: "Master Data Component Amplify - Axway Repository - Binary Server"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-docker-registry
+  description: "Master Data Component Amplify - Axway Repository - Docker Registry"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-frontend
+  description: "Master Data Component Amplify - Axway Repository - Frontend"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-handler-webliv
+  description: "Master Data Component Amplify - Axway Repository - Handler Webliv"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-axway-repository-helm-chart-server
+  description: "Master Data Component Amplify - Axway Repository - Helm Chart Server"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-billing
+  description: "Master Data Component Amplify - Billing"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-chimera
+  description: "Master Data Component Amplify - Chimera"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-cloudelements-provisioning
+  description: "Master Data Component Amplify - CloudElements - Provisioning"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-connected-products-menu
+  description: "Master Data Component Amplify - Connected Products Menu"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-crash-analytics
+  description: "Master Data Component Amplify - Crash Analytics"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-dashboard
+  description: "Master Data Component Amplify - Dashboard"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-gatekeeper
+  description: "Master Data Component Amplify - Gatekeeper"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-gateway
+  description: "Master Data Component Amplify - Gateway"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-ipaas-ce-integration
+  description: "Master Data Component Amplify - IPaaS CE Integration"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-k8sauthproxy
+  description: "Master Data Component Amplify - K8sAuthProxy"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-lighthouse
+  description: "Master Data Component Amplify - Lighthouse"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-mbaas
+  description: "Master Data Component Amplify - MBAAS"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-mbaas-v2
+  description: "Master Data Component Amplify - MBAAS V2"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-marketplace-mediation-layer
+  description: "Master Data Component Amplify - Marketplace Mediation Layer"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-webhook-listener
+  description: ""
+  tags:
+    - javascript
+    - shell
+    - mustache
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/webhook-listener
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-orgresourcequota
+  description: "Master Data Component Amplify - OrgResourceQuota"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-orqadmission
+  description: "Master Data Component Amplify - OrqAdmission"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-outercom
+  description: "Master Data Component Amplify - Outercom"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-pem
+  description: "Master Data Component Amplify - PEM"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-portals-common-footer
+  description: "Master Data Component Amplify - Portals Common Footer"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-portals-common-header
+  description: "Master Data Component Amplify - Portals Common Header"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-portals-crawler
+  description: "Master Data Component Amplify - Portals Crawler"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-portals-search-api
+  description: "Master Data Component Amplify - Portals Search API"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-pubsub
+  description: "Master Data Component Amplify - PubSub"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-pubsub-mediation-layer
+  description: "Master Data Component Amplify - PubSub Mediation Layer"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-registry-server
+  description: "Master Data Component Amplify - Registry Server"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-sphere-cloud-api
+  description: "Master Data Component Amplify - Sphere Cloud API"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-stratus
+  description: "Master Data Component Amplify - Stratus"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-visibility
+  description: "Master Data Component Amplify - Visibility"
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-apigee-agents-service
+  description: ""
+  tags:
+    - go
+    - makefile
+    - shell
+    - smarty
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/apigee-agents
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-apic-github-discovery-service
+  description: ""
+  tags:
+    - go
+    - shell
+    - makefile
+    - dockerfile
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/github-discovery-service
+      icon: github
+spec:
+  type: service
+  owner: amplify-api-platform
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: api-portal
+  description: "Product Group For API Portal"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-portal
+  description: "Master Data Component Amplify - API - Portal"
+spec:
+  type: service
+  owner: api-portal
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: cloudentity-authorization-control-plane
+  description: "Product Group For Cloudentity Authorization Control Plane"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: api-manager
+  description: "Product Group For API Manager"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: api-builder
+  description: "Product Group For API Builder"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: axway-streams
+  description: "Product Group For Axway Streams"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: amplify-integration
+  description: "Product Group For Amplify Integration"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-integration-backend
+  description: "Master Data Component Amplify - Integration Backend"
+spec:
+  type: service
+  owner: amplify-integration
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-integration-frontend
+  description: "Master Data Component Amplify - Integration Frontend"
+spec:
+  type: service
+  owner: amplify-integration
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: api-gateway
+  description: "Product Group For API Gateway"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-cassandra-module
+  description: "Master Data Component Amplify - API - Gateway - Cassandra Module"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-es-common
+  description: "Master Data Component Amplify - API - Gateway - ES Common"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-images
+  description: "Master Data Component Amplify - API - Gateway - Images"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-common
+  description: "Master Data Component Amplify - API - Gateway - Common"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway
+  description: "Master Data Component Amplify - API - Gateway"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-policy-studio
+  description: "Master Data Component Amplify - API - Policy Studio"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-analytics-operational-insights
+  description: "Master Data Component Amplify - Analytics Operational Insights"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-commons-email
+  description: "Master Data Component Amplify - API - Gateway - Commons Email"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-rate-limit
+  description: "Master Data Component Amplify - API - Gateway - Rate Limit"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-api-gateway-cpp
+  description: "Master Data Component Amplify - API - Gateway - CPP"
+spec:
+  type: service
+  owner: api-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: amplify-open-banking
+  description: "Product Group For Amplify Open Banking"
+spec:
+  type: product
+  parent: amplify
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-notifications-integ
+  description: "Master Data Component Amplify - Open Banking - Notifications Integ"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-consent-management
+  description: "Master Data Component Amplify - Open Banking - Consent Management"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking
+  description: "Master Data Component Amplify - Open Banking"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-api-gateway
+  description: "Master Data Component Amplify - Open Banking - API Gateway"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-analytics
+  description: "Master Data Component Amplify - Open Banking - Analytics"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-backend-services
+  description: "Master Data Component Amplify - Open Banking - Backend Services"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-cloud-entity
+  description: "Master Data Component Amplify - Open Banking - Cloud Entity"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-demo-apps
+  description: "Master Data Component Amplify - Open Banking - Demo Apps"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-developer-portal
+  description: "Master Data Component Amplify - Open Banking - Developer Portal"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-fdx-apim-config
+  description: "Master Data Component Amplify - Open Banking - FDX - APIM Config"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-fdx-backend-services
+  description: "Master Data Component Amplify - Open Banking - FDX - Backend Services"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-fdx-cloudentity
+  description: "Master Data Component Amplify - Open Banking - FDX - Cloudentity"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-insurance-apim
+  description: "Master Data Component Amplify - Open Banking - Insurance APIM"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-insurance-apim-config
+  description: "Master Data Component Amplify - Open Banking - Insurance APIM Config"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-insurance-backend-svcs
+  description: "Master Data Component Amplify - Open Banking - Insurance Backend Svcs"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-node-jwe-generator
+  description: "Master Data Component Amplify - Open Banking - Node JWE Generator"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-obb-apim
+  description: "Master Data Component Amplify - Open Banking - OBB - APIM"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-obb-apim-config
+  description: "Master Data Component Amplify - Open Banking - OBB - APIM Config"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: amplify-open-banking-obconfigure
+  description: "Master Data Component Amplify - Open Banking - OBConfigure"
+spec:
+  type: service
+  owner: amplify-open-banking
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: analytics
+  description: "Catlog Line For Analytics"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    decision-insight,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: decision-insight
+  description: "Product Group For Decision Insight"
+spec:
+  type: product
+  parent: analytics
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: analytics-decision-insight
+  description: "Master Data Component Analytics - Decision Insight"
+spec:
+  type: service
+  owner: decision-insight
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: b2b
+  description: "Catlog Line For B2B"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    processmanager,
+    gateway-interchange,
+    mapping-services,
+    webedi-portal,
+    integrator,
+    tsim,
+    csos,
+    b2bi,
+    webtrader,
+    track--trace,
+    secure-relay,
+    bom,
+    esubmissions,
+    activator,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: processmanager
+  description: "Product Group For ProcessManager"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: gateway-interchange
+  description: "Product Group For Gateway Interchange"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-activator
+  description: "Master Data Component B2B - Activator"
+spec:
+  type: service
+  owner: gateway-interchange
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-folder-sync-agent
+  description: "Master Data Component B2B - Folder Sync Agent"
+spec:
+  type: service
+  owner: gateway-interchange
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-interchange-axway-tools
+  description: "Master Data Component B2B - Interchange Axway Tools"
+spec:
+  type: service
+  owner: gateway-interchange
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-interchange-multicluster-correlation
+  description: "Master Data Component B2B - Interchange Multicluster Correlation"
+spec:
+  type: service
+  owner: gateway-interchange
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-interchange-relational-sync-agent
+  description: "Master Data Component B2B - Interchange Relational Sync Agent"
+spec:
+  type: service
+  owner: gateway-interchange
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: mapping-services
+  description: "Product Group For Mapping Services"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-mapping-services
+  description: "Master Data Component B2B - Mapping Services"
+spec:
+  type: service
+  owner: mapping-services
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: webedi-portal
+  description: "Product Group For WebEDI Portal"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-webedi
+  description: "Master Data Component B2B - WebEDI"
+spec:
+  type: service
+  owner: webedi-portal
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: integrator
+  description: "Product Group For Integrator"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-integrator-3.x
+  description: "Master Data Component B2B - Integrator 3.x"
+spec:
+  type: service
+  owner: integrator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tsim
+  description: "Product Group For TSIM"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-business-object-modeler-bom
+  description: "Master Data Component B2B - Business Object Modeler (BOM)"
+spec:
+  type: service
+  owner: tsim
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-tradesync-integration-manager-tsim
+  description: "Master Data Component B2B - TradeSync Integration Manager (TSIM)"
+spec:
+  type: service
+  owner: tsim
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: csos
+  description: "Product Group For CSOS"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: b2bi
+  description: "Product Group For B2Bi"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-b2bi-server
+  description: "Master Data Component B2B - B2Bi Server"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-integrator-b2bi
+  description: "Master Data Component B2B - Integrator B2Bi"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-rest-api-v2
+  description: "Master Data Component B2B - REST API v2"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-standards-library-fex
+  description: "Master Data Component B2B - Standards Library - FEX"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-interchange
+  description: "Master Data Component B2B - Interchange"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: other-extendedb2b
+  description: "Master Data Component Other - ExtendedB2B"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2bi-test-interchange-for-b2bi
+  description: "Master Data Component B2Bi - Test Interchange for B2Bi"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2bi-test-integrator-for-b2bi
+  description: "Master Data Component B2Bi - Test Integrator for B2Bi"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-b2bi-core
+  description: "Master Data Component B2B - B2Bi Core"
+spec:
+  type: service
+  owner: b2bi
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: webtrader
+  description: "Product Group For WebTrader"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-webtrader
+  description: "Master Data Component B2B - WebTrader"
+spec:
+  type: service
+  owner: webtrader
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: track--trace
+  description: "Product Group For Track & Trace"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-track-and-trace
+  description: "Master Data Component B2B - Track and Trace"
+spec:
+  type: service
+  owner: track-trace
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: secure-relay
+  description: "Product Group For Secure Relay"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-secure-relay
+  description: ""
+  tags:
+    - smarty
+    - dockerfile
+    - typescript
+  links:
+    - title: Website
+      url: https://git.ecd.axway.org/apigov/relay
+      icon: github
+spec:
+  type: service
+  owner: secure-relay
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bom
+  description: "Product Group For BOM"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: esubmissions
+  description: "Product Group For eSubmissions"
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: activator
+  description: "Product Group For Activator"
+  annotations:
+    cicd.gitlab: '[{"project_id": "10559", "project_name": "Activator GitLab sample job1"}, {"project_id": "67890", "project_name": "Activator GitLab sample job2"}]'
+    cicd.jenkins: '[{"job_name": "Activator Jenkins sample job3"}, {"job_name": "Activator Jenkins sample job4"}]'
+spec:
+  type: product
+  parent: b2b
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: itom
+  description: "Catlog Line For ITOM"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    widevision,
+    automator,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: widevision
+  description: "Product Group For WideVision"
+spec:
+  type: product
+  parent: itom
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: automator
+  description: "Product Group For Automator"
+spec:
+  type: product
+  parent: itom
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-commons-ihm
+  description: "Master Data Component Automator - Commons - IHM"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-domain-server
+  description: "Master Data Component Automator - Domain Server"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-frontend
+  description: "Master Data Component Automator - FrontEnd"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-gui
+  description: "Master Data Component Automator - GUI"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-api-for-kc
+  description: "Master Data Component Automator - ITOPSV - API for KC"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-aggregation-for-automator
+  description: "Master Data Component Automator - ITOPSV - Aggregation for Automator"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-commons-server
+  description: "Master Data Component Automator - ITOPSV - Commons Server"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-document-manager
+  description: "Master Data Component Automator - ITOPSV - Document Manager"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-portal
+  description: "Master Data Component Automator - ITOPSV - Portal"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-widgets-for-automator
+  description: "Master Data Component Automator - ITOPSV - Widgets for Automator"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-itopsv-widgets-for-wv
+  description: "Master Data Component Automator - ITOPSV - Widgets for WV"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-rest-server
+  description: "Master Data Component Automator - REST Server"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-servers
+  description: "Master Data Component Automator - Servers"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-web-services
+  description: "Master Data Component Automator - Web Services"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: automator-web-ui
+  description: "Master Data Component Automator - Web UI"
+spec:
+  type: service
+  owner: automator
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: mft
+  description: "Catlog Line For MFT"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    sentinel-event-router,
+    sentinel-universal-agent,
+    ebics-gateway,
+    central-governance,
+    securetransport,
+    gateway,
+    transition-portal,
+    trustedfile,
+    transfer-cft,
+    secure-client,
+    swiftnet-connector,
+    sentinel,
+    passport,
+    ebics-client,
+    electronic-signature,
+    ebics-corporate,
+    flow-manager,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: sentinel-event-router
+  description: "Product Group For Sentinel Event Router"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-sentinel-event-router
+  description: "Master Data Component MFT - Sentinel Event Router"
+spec:
+  type: service
+  owner: sentinel-event-router
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: sentinel-universal-agent
+  description: "Product Group For Sentinel Universal Agent"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ebics-gateway
+  description: "Product Group For EBICS Gateway"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-ebics-gateway-server
+  description: "Master Data Component MFT - EBICS Gateway Server"
+spec:
+  type: service
+  owner: ebics-gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: central-governance
+  description: "Product Group For Central Governance"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-central-governance
+  description: "Master Data Component MFT - Central Governance"
+spec:
+  type: service
+  owner: central-governance
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: securetransport
+  description: "Product Group For SecureTransport"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-secure-transport-5.5
+  description: "Master Data Component MFT - Secure Transport 5.5"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-st-customization-irs
+  description: "Master Data Component MFT - ST Customization - IRS"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-st-customization-lloyds
+  description: "Master Data Component MFT - ST Customization - Lloyds"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-st-customization-oecd
+  description: "Master Data Component MFT - ST Customization - OECD"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-st-plugins
+  description: "Master Data Component MFT - ST Plugins"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-secure-transport-webclient
+  description: "Master Data Component MFT - Secure Transport WebClient"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-secure-transport-5.3.6
+  description: "Master Data Component MFT - Secure Transport 5.3.6"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-secure-transport-5.4
+  description: "Master Data Component MFT - Secure Transport 5.4"
+spec:
+  type: service
+  owner: securetransport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: gateway
+  description: "Product Group For Gateway"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-gateway-xfb
+  description: "Master Data Component MFT - Gateway XFB"
+spec:
+  type: service
+  owner: gateway
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: transition-portal
+  description: "Product Group For Transition Portal"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-transition-portal
+  description: "Master Data Component MFT - Transition Portal"
+spec:
+  type: service
+  owner: transition-portal
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: trustedfile
+  description: "Product Group For TrustedFile"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: transfer-cft
+  description: "Product Group For Transfer CFT"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-central-governance-plugin-for-cft
+  description: "Master Data Component MFT - Central Governance Plugin for CFT"
+spec:
+  type: service
+  owner: transfer-cft
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-transfer-cft
+  description: "Master Data Component MFT - Transfer CFT"
+spec:
+  type: service
+  owner: transfer-cft
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: secure-client
+  description: "Product Group For Secure Client"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-secureclient
+  description: "Master Data Component MFT - SecureClient"
+spec:
+  type: service
+  owner: secure-client
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: swiftnet-connector
+  description: "Product Group For SWIFTNet Connector"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: sentinel
+  description: "Product Group For Sentinel"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-sentinel-server
+  description: "Master Data Component MFT - Sentinel Server"
+spec:
+  type: service
+  owner: sentinel
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: passport
+  description: "Product Group For PassPort"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-passport
+  description: "Master Data Component B2B - PassPort"
+spec:
+  type: service
+  owner: passport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: b2b-passport-ui-lite
+  description: "Master Data Component B2B - PassPort UI Lite"
+spec:
+  type: service
+  owner: passport
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ebics-client
+  description: "Product Group For EBICS Client"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-ebics-client
+  description: "Master Data Component MFT - EBICS Client"
+spec:
+  type: service
+  owner: ebics-client
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: electronic-signature
+  description: "Product Group For Electronic Signature"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-electronic-signature
+  description: "Master Data Component MFT - Electronic Signature"
+spec:
+  type: service
+  owner: electronic-signature
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ebics-corporate
+  description: "Product Group For EBICS Corporate"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flow-manager
+  description: "Product Group For Flow Manager"
+spec:
+  type: product
+  parent: mft
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager-plugin-for-st
+  description: "Master Data Component MFT - Flow Manager Plugin for ST"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager
+  description: "Master Data Component MFT - Flow Manager"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager-agent
+  description: "Master Data Component MFT - Flow Manager Agent"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager-bridge
+  description: "Master Data Component MFT - Flow Manager Bridge"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager-monitoring-plugin
+  description: "Master Data Component MFT - Flow Manager Monitoring Plugin"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mft-flow-manager-plugin-for-cft
+  description: "Master Data Component MFT - Flow Manager Plugin for CFT"
+spec:
+  type: service
+  owner: flow-manager
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: misc
+  description: "Catlog Line For Misc"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    database,
+    messaging,
+    installer,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: database
+  description: "Product Group For Database"
+spec:
+  type: product
+  parent: misc
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: messaging
+  description: "Product Group For Messaging"
+spec:
+  type: product
+  parent: misc
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: installer
+  description: "Product Group For Installer"
+spec:
+  type: product
+  parent: misc
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: other
+  description: "Catlog Line For Other"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: validation-authority
+  description: "Catlog Line For Validation Authority"
+spec:
+  type: catalog-line
+  parent: Axway
+  children: [
+    server-validator,
+    validation-authority,
+    desktop-validator,
+    validator-toolkit-java,
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: server-validator
+  description: "Product Group For Server Validator"
+spec:
+  type: product
+  parent: validation-authority
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: validation-authority
+  description: "Product Group For Validation Authority"
+spec:
+  type: product
+  parent: validation-authority
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: va-core
+  description: "Master Data Component VA - Core"
+spec:
+  type: service
+  owner: validation-authority
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: va-desktop-validator
+  description: "Master Data Component VA - Desktop Validator"
+spec:
+  type: service
+  owner: validation-authority
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: va-server-validator
+  description: "Master Data Component VA - Server Validator"
+spec:
+  type: service
+  owner: validation-authority
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: va-validation-authority
+  description: "Master Data Component VA - Validation Authority"
+spec:
+  type: service
+  owner: validation-authority
+  lifecycle: production
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: desktop-validator
+  description: "Product Group For Desktop Validator"
+spec:
+  type: product
+  parent: validation-authority
+  children: [
+  ]
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: validator-toolkit-java
+  description: "Product Group For Validator Toolkit Java"
+spec:
+  type: product
+  parent: validation-authority
+  children: [
+  ]
+---

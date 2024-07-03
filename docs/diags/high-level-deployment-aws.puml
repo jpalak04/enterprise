@@ -1,0 +1,56 @@
+@startuml Architecture Design AWS
+allowmixing 
+
+title "AWS Hosted\nOption"
+
+package "Deployment Model" 
+{
+    package "AWS" as aws
+    {
+      cloud "EKS" as k8s {
+        component "Backstage\nFrontend" as frontend
+        component "Backstage\nBackend" as backend
+
+      }
+      database "RDS" as postgres
+      component "DNSFwd" as r53
+    }
+    package "Axway Private Network"
+    {
+        component "Private\n  DNS" as pdns
+        package "Internal Endpoints" as endpoints {
+            component "Gitlab" as svca
+            component "Jira" as svcb
+            component "Service N" as svcn
+        }
+        package "Image Deployment"
+        {
+           component "Gitlab/nCI/CD" as cicd
+           component "Artifactory"
+          component "Helm" as helm
+        }
+
+
+    }
+
+    package "External Endpoints" as extendpoints {
+            component "AzureAD" as azure
+            component "Github" as github
+            component "...Service N" as extsvcn
+    }
+
+
+}
+backend -down-> postgres
+frontend -right-> backend
+k8s -left-> r53
+backend -right-> endpoints
+r53 -down-> pdns
+backend -left->extendpoints
+helm -up-> k8s : "apply"
+helm -left-> Artifactory : "push"
+cicd -up->Artifactory : "create"
+
+
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+package "Frontend Plugin" {
+    [ProductCard] as PC
+    [ItemCardGrid] as ICG
+}
+
+package "Backend Plugin" {
+    [CRUD API] as API
+    database "postgreSQL" as DB
+}
+
+PC --> API : fetches dynamic configuration
+API --> DB : query configurations
+DB --> API : return configurations
+API --> PC : configuration data
+PC --> ICG : render tiles
+
+@enduml
